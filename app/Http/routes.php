@@ -11,10 +11,34 @@
 |
 */
 
+use App\Product;
+use App\Package;
+
 Route::get('/', function () {
     return view('login');
 });
 
 Route::get('/main', function () {
     return view('main');
+});
+
+Route::post('/product', function(Request $request){
+  $keyword = $request->input('keyword');
+
+  $result = Product::with('packages')->where('article_id', 'LIKE', $keyword)->orWhere('name', 'LIKE', $keyword)->get();
+  if(!$result){
+    return response()->json(['status' => 'error', 'message' => 'not found']);
+  }
+  
+  return response()->json($result);
+});
+
+Route::get('/product/{keyword}', function($keyword){
+
+  $result = Product::with('packages')->where('article_id', 'LIKE', $keyword)->orWhere('name', 'LIKE', $keyword)->get();
+  if(!$result){
+    return response()->json(['status' => 'error', 'message' => 'not found']);
+  }
+  
+  return response()->json($result);
 });

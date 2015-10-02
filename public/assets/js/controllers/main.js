@@ -1,6 +1,6 @@
 app.controller('MainController',
-  ['$scope', '$animate', 'localStorageService', 'todoService', '$alert', '$timeout', '$rootScope', 'PlaceholderTextService', 'ngTableParams', '$filter',
-  function($scope, $animate, localStorageService, todoService, $alert, $timeout, $rootScope, PlaceholderTextService, ngTableParams, $filter){
+  ['$scope', '$animate', 'localStorageService', 'todoService', '$alert', '$timeout', '$rootScope', 'PlaceholderTextService', 'ngTableParams', '$filter', '$http',
+  function($scope, $animate, localStorageService, todoService, $alert, $timeout, $rootScope, PlaceholderTextService, ngTableParams, $filter, $http){
 
   $scope.theme_colors = [
     'pink','red','purple','indigo','blue',
@@ -71,7 +71,7 @@ app.controller('MainController',
 
   var refererNotThemeforest = $alert({
     title: 'Hi there!',
-    content: 'You like what you see and interested in using our theme? You can find it at <a href="http://themeforest.net/item/materialism-angular-bootstrap-admin-template/11322821" target="_blank"><img style="height:20px;" src="assets/img/icons/themeforest-icon.png" /> Themeforest</a>.',
+    content: 'Testing.',
     placement: 'top-right',
     type: 'theme',
     container: '.alert-container-top-right',
@@ -128,4 +128,25 @@ app.controller('MainController',
       $defer.resolve(mydata.slice((params.page() - 1) * params.count(), params.page() * params.count()));
     }
   });
+  
+  $scope.product = [];
+  $scope.product_keyword = '';
+  $scope.searchProduct = function(val)
+  {
+      $http.get($rootScope.url + '/product/' + val).
+      success(function(data){
+          if(data.status == 'error')
+          {
+              $scope.showError = true;
+          }
+          else
+          {
+              $scope.showError = false;
+              $scope.product = data;
+          }
+      })
+      .error(function(data){
+      });
+      console.log('enter!');
+  }
 }]);

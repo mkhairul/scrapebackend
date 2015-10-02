@@ -149,6 +149,7 @@
   <script charset="utf-8" src="assets/js/directives/card-flip.js"></script>
   <script charset="utf-8" src="assets/js/directives/scroll-spy.js"></script>
   <script charset="utf-8" src="assets/js/directives/init-ripples.js"></script>
+  <script charset="utf-8" src="assets/js/directives/keypress.js"></script>
 
   <script charset="utf-8" src="assets/js/services/color-service.js"></script>
   <script charset="utf-8" src="assets/js/services/todo-service.js"></script>
