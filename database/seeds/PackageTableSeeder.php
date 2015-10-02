@@ -9,58 +9,138 @@ class PackageTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    
+    protected $queue = [];
+    protected $scraper_dir = __DIR__.'/../../scraper/';
+    protected $scraper_data_dir = __DIR__.'/../../scraper/data/';
+    protected $queue_limit = 5;
+    protected $sleep = 2;
+    
+    public function queueTotal()
     {
-        $products = DB::table('product')->where('article_id', '')->where('problem', 0)->orderByRaw("RAND()")->get();
-        foreach ($products as $product)
+        return count($this->queue);
+    }
+    
+    public function addScraper($id, $url)
+    {
+        $tmp = DB::table('product')->where('id', $id)->where('article_id', '')->first();
+        if(!$tmp){ $this->command->info('Skipping ID: ' . $id); continue; }
+        
+        $this->command->info('Spawning scraper for ' . $id);
+        
+        $this->queue[] = ['product_id'  => $id, 
+                          'filename'    => $id,
+                          'proc_id'     => trim(shell_exec('phantomjs ' .$this->scraper_dir. 'productdetail.js "'.$url.'" > '.$this->scraper_dir.'data/'.$id.' 2>&1 & echo $!'))];
+    }
+    
+    public function updateQueue()
+    {
+        foreach($this->queue as $index => $row)
         {
-            $tmp = DB::table('product')->where('id', $product->id)->where('article_id', '')->first();
-            if(!$tmp){ $this->command->info('Skipping ID: ' . $product->id); continue; }
-                      
-            $this->command->info('Retrieving product detail, ' . $product->name . ', ' . $product->id);
-            $result = shell_exec('phantomjs ' . __DIR__.'/../../scraper/productdetail.js "'.$product->url.'"');
-            $details = json_decode(trim($result), true);
-                      
-            $tmp = DB::table('product')->where('id', $product->id)->where('article_id', '')->first();
-            if(!$tmp){ $this->command->info('Skipping ID: ' . $product->id); continue; }
-            
-            if(!is_array($details))
+            if(!file_exists('/proc/'.$row['proc_id']) && file_exists($this->scraper_data_dir . $row['filename']))
             {
-                DB::table('product')
-                    ->where('id', $product->id)
-                    ->update(['problem' => 1]);
-                continue;
-            }
             
-            if(array_key_exists('status', $details))
-            {
-                if($details['status'] == 'error')
+                $content = file_get_contents($this->scraper_data_dir . $row['filename']);
+                $details = json_decode(trim($content), true);
+
+                $tmp = DB::table('product')->where('id', $row['product_id'])->where('article_id', '')->first();
+                if(!$tmp){ $this->command->info('Skipping ID: ' . $row['product_id']); continue; }
+
+                if(!is_array($details))
                 {
                     DB::table('product')
-                        ->where('id', $product->id)
-                        ->update(['problem' => 1]);
+                        ->where('id', $row['product_id'])
+                        ->update(['problem' => 1, 'problem_log' => $content]);
+                    $this->command->info('Data is not array, ' . $row['filename']);
+                    unlink($this->scraper_data_dir.$row['filename']);
+                    unset($this->queue[$index]);
                     continue;
                 }
+
+                if(array_key_exists('status', $details))
+                {
+                    if($details['status'] == 'error')
+                    {
+                        DB::table('product')
+                            ->where('id', $row['product_id'])
+                            ->update(['problem' => 1, 'problem_log' => $content]);
+                        $this->command->info('status: error');
+                        unlink($this->scraper_data_dir.$row['filename']);
+                        unset($this->queue[$index]);
+                        continue;
+                    }
+                }
+
+                DB::table('product')
+                    ->where('id', $row['product_id'])
+                    ->update(['article_id' => $details['article_id'],
+                              'price'      => $details['price']
+                             ]);
+
+                foreach($details['package'] as $package)
+                {
+                    DB::table('package')->insert([
+                        'product_id'    => $row['product_id'],
+                        'article_id'    => $package['article_id'],
+                        'width'         => $package['width'],
+                        'height'        => $package['height'],
+                        'length'        => $package['length'],
+                        'weight'        => $package['weight'],
+                        'diameter'      => $package['diameter'],
+                        'total'         => $package['total']
+                    ]);
+                }
+                $this->command->info('Updating '.$row['product_id']);
+                $this->command->info('Deleting temp file');
+                unlink($this->scraper_data_dir.$row['filename']);
+                unset($this->queue[$index]);
             }
-            
-            DB::table('product')
-                ->where('id', $product->id)
-                ->update(['article_id' => $details['article_id']]);
-            
-            foreach($details['package'] as $package)
+        }
+    }
+    
+    public function run()
+    {
+        /*
+         - $processLimit = 5;
+         - loop through products
+         - addScraper($product)
+         - while(scraperQueue() >= $processLimit)
+           - updateQueue();
+           - wait(5);
+        
+        - addScraper(url){
+            $this->scraper_dir = __DIR__.'/../../scraper/';
+            $proc_id = shell_exec('phantomjs ' .$this->scraper_dir. 'productdetail.js "'.$product->url.'" >> '.$this->scraper_dir.'data/details 2>&1 & print "%u" $!');
+          }
+        - updateQueue(){
+            // Check process id
+            foreach($queue as $index => $proc)
             {
-                DB::table('package')->insert([
-                    'product_id'    => $product->id,
-                    'article_id'    => $package['article_id'],
-                    'width'         => $package['width'],
-                    'height'        => $package['height'],
-                    'length'        => $package['length'],
-                    'weight'        => $package['weight'],
-                    'diameter'      => $package['diameter'],
-                    'total'         => $package['total']
-                ]);
+              if(!file_exists('/proc/'.$proc))
+              {
+                $content = file_get_contents(__DIR__.'/../../scraper/data/' . $proc);
+                $details = json_decode(trim($content), true);
+                
+              }
             }
-            $this->command->info('Updating "'.$product->name);
+          }
+         */
+        $products = DB::table('product')->where('article_id', '')->take(10)->get();
+        foreach ($products as $product)
+        { 
+            $this->addScraper($product->id, $product->url);
+            while($this->queueTotal() >= $this->queue_limit)
+            {
+                $this->updateQueue();
+                sleep($this->sleep);
+            }
+        }
+        
+        // Finish off any other processes.
+        while($this->queueTotal() > 0)
+        {
+            $this->updateQueue();
+            sleep($this->sleep);
         }
     }
 }
