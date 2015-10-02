@@ -125,7 +125,7 @@ class PackageTableSeeder extends Seeder
             }
           }
          */
-        $products = DB::table('product')->where('article_id', '')->take(10)->get();
+        $products = DB::table('product')->where('article_id', '')->get();
         foreach ($products as $product)
         { 
             $this->addScraper($product->id, $product->url);
