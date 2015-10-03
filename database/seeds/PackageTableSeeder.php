@@ -12,7 +12,6 @@ class PackageTableSeeder extends Seeder
     protected $queue_limit = 6;
     protected $sleep = 2;
     protected $process_limit = 5;
-    protected $process_limit_ut = 5 * 60; // 5 minutes;
     
     /**
      * Run the database seeds.
