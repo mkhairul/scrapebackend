@@ -4,18 +4,21 @@ use Illuminate\Database\Seeder;
 
 class PackageTableSeeder extends Seeder
 {
+    
+    
+    protected $queue = [];
+    protected $scraper_dir = __DIR__.'/../../scraper/';
+    protected $scraper_data_dir = __DIR__.'/../../scraper/data/';
+    protected $queue_limit = 6;
+    protected $sleep = 2;
+    protected $process_limit = 5;
+    protected $process_limit_ut = 5 * 60; // 5 minutes;
+    
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    
-    protected $queue = [];
-    protected $scraper_dir = __DIR__.'/../../scraper/';
-    protected $scraper_data_dir = __DIR__.'/../../scraper/data/';
-    protected $queue_limit = 5;
-    protected $sleep = 2;
-    
     public function queueTotal()
     {
         return count($this->queue);
@@ -33,10 +36,27 @@ class PackageTableSeeder extends Seeder
                           'proc_id'     => trim(shell_exec('phantomjs ' .$this->scraper_dir. 'productdetail.js "'.$url.'" > '.$this->scraper_dir.'data/'.$id.' 2>&1 & echo $!'))];
     }
     
+    public function updateProcess()
+    {
+        $ps_list = explode(PHP_EOL, shell_exec('ps -ef | grep phantomjs'));
+        foreach($ps_list as $process)
+        {
+            $ps_segment = preg_split('/\s+/', $process);
+            $elapsed = explode(':', $ps_segment[6]);
+            if($elapsed >= $process_limit)
+            {
+                $this->command->info('killing process');
+                shell_exec('kill -9 ' . $ps_segment[1]);
+            }
+        }
+    }
+    
     public function updateQueue()
     {
         foreach($this->queue as $index => $row)
         {
+            $this->updateProcess();
+            
             if(!file_exists('/proc/'.$row['proc_id']) && file_exists($this->scraper_data_dir . $row['filename']))
             {
             
@@ -101,29 +121,12 @@ class PackageTableSeeder extends Seeder
     public function run()
     {
         /*
-         - $processLimit = 5;
          - loop through products
-         - addScraper($product)
-         - while(scraperQueue() >= $processLimit)
-           - updateQueue();
-           - wait(5);
-        
-        - addScraper(url){
-            $this->scraper_dir = __DIR__.'/../../scraper/';
-            $proc_id = shell_exec('phantomjs ' .$this->scraper_dir. 'productdetail.js "'.$product->url.'" >> '.$this->scraper_dir.'data/details 2>&1 & print "%u" $!');
-          }
-        - updateQueue(){
-            // Check process id
-            foreach($queue as $index => $proc)
-            {
-              if(!file_exists('/proc/'.$proc))
-              {
-                $content = file_get_contents(__DIR__.'/../../scraper/data/' . $proc);
-                $details = json_decode(trim($content), true);
-                
-              }
-            }
-          }
+           - addScraper($product)
+           - while(scraperQueue() >= $processLimit)
+             - updateQueue();
+             - wait(5);
+         - updateQueue();     
          */
         $products = DB::table('product')->where('article_id', '')->get();
         foreach ($products as $product)
