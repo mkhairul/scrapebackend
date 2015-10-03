@@ -7,8 +7,8 @@ class PackageTableSeeder extends Seeder
     
     
     protected $queue = [];
-    protected $scraper_dir = __DIR__.'/../../scraper/';
-    protected $scraper_data_dir = __DIR__.'/../../scraper/data/';
+    protected $scraper_dir;
+    protected $scraper_data_dir;
     protected $queue_limit = 6;
     protected $sleep = 2;
     protected $process_limit = 5;
@@ -129,6 +129,9 @@ class PackageTableSeeder extends Seeder
     
     public function run()
     {
+        $this->scraper_dir =  __DIR__.'/../../scraper/';
+        $this->scraper_data_dir = __DIR__.'/../../scraper/data/';
+        
         /*
          - loop through products
            - addScraper($product)
