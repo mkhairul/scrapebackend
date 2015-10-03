@@ -23,6 +23,45 @@
             </div>
         </div>
           
+        <div class="row" ng-if="selected_product">
+            <div class="col-md-6">
+              <div class="well white">
+                <form class="form-floating">
+
+                  <fieldset>
+                    <legend>{{ selected_product.name }}</legend>
+                    <span class="help-block mw400">{{selected_product.desc}}</span>                    
+                    <div class="form-group">
+                      <input class="form-control" id="focusedInput" type="text" ng-model="selected_product.article_id" value="{{selected_product.article_id}}">
+                      <label class="control-label" for="focusedInput">Article ID/No</label>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary">Save</button>
+                      <button type="button" class="btn btn-default" ng-click="clearSelected()">Cancel</button>
+                    </div>
+                  </fieldset>
+
+                </form>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="well white">
+                <form class="form-floating">
+                  <fieldset>
+                    <span class="help-block mw400">Packages</span>
+                    <div ng-repeat="package in selected_product.packages">
+                        <div class="form-group">
+                          <input class="form-control" id="focusedInput" type="text" ng-model="selected_product.article_id" value="{{selected_product.article_id}}">
+                          <label class="control-label" for="focusedInput">Article ID/No</label>
+                        </div>
+                    </div>
+                  </fieldset>
+
+                </form>
+              </div>
+            </div>
+        </div>
+          
         <div class="row m-b-40" ng-show="product.length > 0">
             <div class="col-md-12">
               <div class="card no-margin">
@@ -45,8 +84,8 @@
                     <tbody>
 
                     <tr ng-repeat="(key, item) in product">
-                      <td>{{ item.article_id }}</td>
-                      <td>{{ item.name }}</td>
+                      <td>{{ item.article_id }}</a></td>
+                      <td><a ng-click="selectProduct(item)">{{ item.name }}</a></td>
                       <td>{{ item.packages.length }}</td>
                       <td><a target="_blank" ng-href="{{item.url}}">View</a></td>
                     </tr>

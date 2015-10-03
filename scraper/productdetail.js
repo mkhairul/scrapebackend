@@ -23,7 +23,7 @@ page.open(url, function(status){
             }
             else if(document.querySelectorAll('#packageInfo > div').length == 1)
             {
-                var total_package = (document.querySelector('#packageInfo #package_text')) ? document.querySelector('#packageInfo #package_text').innerHTML.trim().match(/(\d+)/g)[0]:2;
+                var total_package = parseInt((document.querySelector('#packageInfo #package_text')) ? document.querySelector('#packageInfo #package_text').innerHTML.trim().match(/(\d+)/g)[0]:2);
                 return total_package;
             }
             else

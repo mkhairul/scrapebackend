@@ -149,4 +149,11 @@ app.controller('MainController',
       });
       console.log('enter!');
   }
+  
+  $scope.selectProduct = function(item){
+      console.log(item);
+      $scope.selected_product = item;
+  }
+  
+  $scope.clearSelected = function(){ delete $scope.selected_product };
 }]);
