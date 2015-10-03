@@ -43,7 +43,7 @@ class PackageTableSeeder extends Seeder
         {
             $ps_segment = preg_split('/\s+/', $process);
             $elapsed = explode(':', $ps_segment[6]);
-            if($elapsed >= $process_limit)
+            if($elapsed[1] >= $process_limit)
             {
                 $this->command->info('killing process');
                 shell_exec('kill -9 ' . $ps_segment[1]);
