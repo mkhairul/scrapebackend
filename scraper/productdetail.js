@@ -8,11 +8,13 @@ page.open(url, function(status){
         {
             return {'status':'error'};
         }
+        
         var detail = {
             'name'      : document.querySelector('#cartInfotd #productNameProdInfo').textContent.trim(),
             'desc'      : document.querySelector('#cartInfotd #productTypeProdInfo').textContent.trim(),
             'price'     : document.querySelector('#cartInfotd #priceProdInfo').textContent.trim(),
-            'article_id': document.querySelector('#itemNumber').textContent.trim().match(/(\d+)\.?(\d+)\.?(\d+)/g)[0].split('.').join('')
+            'article_id': document.querySelector('#itemNumber').textContent.trim().match(/(\d+)\.?(\d+)\.?(\d+)/g)[0].split('.').join(''),
+            'main_img'  : document.querySelector('#productImg').href.trim()
         };
         // Check total packages
         detail['total_package'] = function(){

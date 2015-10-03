@@ -96,6 +96,15 @@ class PackageTableSeeder extends Seeder
                     ->update(['article_id' => $details['article_id'],
                               'price'      => $details['price']
                              ]);
+                
+                // Insert the product image
+                DB::table('misc_data')->insert([
+                        'parent_id' => $row['product_id'],
+                        'type'      => 'product',
+                        'name'      => 'main_img',
+                        'data'      => $details['main_img']
+                    ]);
+                    
 
                 foreach($details['package'] as $package)
                 {
