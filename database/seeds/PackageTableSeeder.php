@@ -38,12 +38,12 @@ class PackageTableSeeder extends Seeder
     
     public function updateProcess()
     {
-        $ps_list = explode(PHP_EOL, shell_exec('ps -ef | grep phantomjs'));
+        $ps_list = explode(PHP_EOL, trim(shell_exec('ps -ef | grep phantomjs')));
         foreach($ps_list as $process)
         {
             $ps_segment = preg_split('/\s+/', $process);
             $elapsed = explode(':', $ps_segment[6]);
-            if($elapsed[1] >= $process_limit)
+            if($elapsed[1] >= $this->process_limit)
             {
                 $this->command->info('killing process');
                 shell_exec('kill -9 ' . $ps_segment[1]);

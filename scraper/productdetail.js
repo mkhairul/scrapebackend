@@ -14,7 +14,7 @@ page.open(url, function(status){
             'desc'      : document.querySelector('#cartInfotd #productTypeProdInfo').textContent.trim(),
             'price'     : document.querySelector('#cartInfotd #priceProdInfo').textContent.trim(),
             'article_id': document.querySelector('#itemNumber').textContent.trim().match(/(\d+)\.?(\d+)\.?(\d+)/g)[0].split('.').join(''),
-            'main_img'  : document.querySelector('#productImg').href.trim()
+            'main_img'  : document.querySelector('#productImg').src.trim()
         };
         // Check total packages
         detail['total_package'] = function(){
