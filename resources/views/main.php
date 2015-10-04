@@ -30,7 +30,7 @@
   <link rel="manifest" href="assets/img/favicon/manifest.json">
   <link rel="shortcut icon" href="assets/img/favicon/favicon.ico">
 
-  <title ng-bind="pageTitle + ' - Materialism'">Automation System</title>
+  <title ng-bind="pageTitle">Automation System</title>
 
   <!-- build:css assets/css/vendors.min.css -->
   <link href="bower_components/material-design-iconic-font/css/material-design-iconic-font.css" rel="stylesheet" />
@@ -120,6 +120,8 @@
 
   <script charset="utf-8" src="bower_components/angulartics/dist/angulartics.min.js"></script>
   <script charset="utf-8" src="bower_components/angulartics/dist/angulartics-ga.min.js"></script>
+
+  <script charset="utf-8" src="bower_components/satellizer/satellizer.min.js"></script>
   <!-- endbuild -->
   <!-- build:js assets/js/app.min.js -->
   <script charset="utf-8" src="assets/js/vendors/angular-placeholders.js"></script>
@@ -153,6 +155,7 @@
 
   <script charset="utf-8" src="assets/js/services/color-service.js"></script>
   <script charset="utf-8" src="assets/js/services/todo-service.js"></script>
+  <script charset="utf-8" src="assets/js/services/quote-service.js"></script>
 
   <script charset="utf-8" src="assets/js/controllers/main.js"></script>
   <script charset="utf-8" src="assets/js/controllers/dashboard.js"></script>

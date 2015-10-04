@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Automation System</title>
+    <title>Materialism</title>
     <meta name="msapplication-TileColor" content="#9f00a7">
     <meta name="msapplication-TileImage" content="assets/img/favicon/mstile-144x144.png">
     <meta name="msapplication-config" content="assets/img/favicon/browserconfig.xml">
@@ -37,37 +37,34 @@
       <div class="card bordered z-depth-2" style="margin:0% auto; max-width:400px;">
         <div class="card-header">
           <div class="brand-logo">
-            <div id="logo">
-              <div class="foot1"></div>
-              <div class="foot2"></div>
-              <div class="foot3"></div>
-              <div class="foot4"></div>
-            </div> Materialism </div>
+            JACE 
+          </div>
         </div>
         <div class="card-content">
+          <?php if(count($errors)){ ?>
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            Invalid Login!
+          </div>
+          <?php } ?>
           <div class="m-b-30">
             <div class="card-title strong pink-text">Login</div>
-            <p class="card-title-desc"> Welcome to Materialism! The admin template for material design lovers. </p>
+            <p class="card-title-desc"></p>
           </div>
-          <form class="form-floating">
+          <form id="loginform" class="form-floating" method="post" action="auth/login">
             <div class="form-group">
               <label for="inputEmail" class="control-label">Email</label>
-              <input type="text" class="form-control"> </div>
+              <input type="text" class="form-control" name="email" value="<?php echo Request::old('email'); ?>"> 
+            </div>
             <div class="form-group">
               <label for="inputPassword" class="control-label">Password</label>
-              <input type="password" class="form-control" id="inputPassword"> </div>
-            <div class="form-group">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> Remember me </label>
-              </div>
+              <input type="password" class="form-control" id="inputPassword" name="password"> 
             </div>
           </form>
         </div>
         <div class="card-action clearfix">
           <div class="pull-right">
-            <button type="button" class="btn btn-link black-text">Forgot password</button>
-            <button type="button" class="btn btn-link black-text">Login</button>
+            <button type="submit" form="loginform" class="btn btn-link black-text">Login</button>
           </div>
         </div>
       </div>

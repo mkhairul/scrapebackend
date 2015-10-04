@@ -14,6 +14,12 @@
 use App\Product;
 use App\Package;
 
+use Request;
+
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
 Route::get('/', function () {
     return view('login');
 });

@@ -10,7 +10,7 @@ var app = angular.module('materialism', [
   'ngTable',
 
   'angular-loading-bar',
-
+  'satellizer',
   'angulartics',
   'angulartics.google.analytics',
 

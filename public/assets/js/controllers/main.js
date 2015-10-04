@@ -1,26 +1,12 @@
 app.controller('MainController',
-  ['$scope', '$animate', 'localStorageService', 'todoService', '$alert', '$timeout', '$rootScope', 'PlaceholderTextService', 'ngTableParams', '$filter', '$http',
-  function($scope, $animate, localStorageService, todoService, $alert, $timeout, $rootScope, PlaceholderTextService, ngTableParams, $filter, $http){
+  ['quoteService', '$scope', '$animate', 'localStorageService', 'todoService', '$alert', '$timeout', '$rootScope', 'PlaceholderTextService', 'ngTableParams', '$filter', '$http', '$window',
+  function(quoteService, $scope, $animate, localStorageService, todoService, $alert, $timeout, $rootScope, PlaceholderTextService, ngTableParams, $filter, $http, $window){
 
   $scope.theme_colors = [
     'pink','red','purple','indigo','blue',
     'light-blue','cyan','teal','green','light-green',
     'lime','yellow','amber','orange','deep-orange'
   ];
-
-  // Add todoService to scope
-  service = new todoService($scope);
-  $scope.todosCount = service.count();
-  $scope.$on('todos:count', function(event, count) {
-    $scope.todosCount = count;
-    element = angular.element('#todosCount');
-
-    if ( !element.hasClass('animated') ){
-      $animate.addClass(element, 'animated bounce', function() {
-        $animate.removeClass(element, 'animated bounce');
-      });
-    }
-  });
 
   $scope.fillinContent = function(){
     $scope.htmlContent = 'content content';
@@ -156,4 +142,13 @@ app.controller('MainController',
   }
   
   $scope.clearSelected = function(){ delete $scope.selected_product };
+  $scope.openURL = function(url){  $window.open(url, '_blank'); }
+  
+  $scope.quoteService = quoteService;
+  $scope.quoteItems = $scope.quoteService.getItems();
+  
+  $scope.addProductToQuote = function(product){
+      $scope.quoteService.add(product);
+  }
+  
 }]);
