@@ -32,29 +32,11 @@ app.controller('MainController',
   }
   localStorageService.bind($scope, 'theme');
 
-  var introductionAlert = $alert({
-    title: 'Welcome to Materialism',
-    content: 'Stay a while and listen',
-    placement: 'top-right',
-    type: 'theme',
-    container: '.alert-container-top-right',
-    show: false,
-    template: 'assets/tpl/partials/alert-introduction.html',
-    animation: 'mat-grow-top-right'
-  });
-
-  if(!localStorageService.get('alert-introduction')) {
-    $timeout(function(){
-      $scope.showIntroduction();
-      localStorageService.set('alert-introduction', 1);
-    }, 2500);
-  }
-
   $scope.showIntroduction = function(){
-    introductionAlert.show();
+    intro.show();
   };
 
-  var refererNotThemeforest = $alert({
+  var intro = $alert({
     title: 'Hi there!',
     content: 'Testing.',
     placement: 'top-right',
@@ -63,12 +45,9 @@ app.controller('MainController',
     show: false,
     animation: 'mat-grow-top-right'
   });
-
-  if (document.referrer === '' || document.referrer.indexOf('themeforest.net') !== 0){
-    $timeout(function(){
-      refererNotThemeforest.show();
-    }, 1750);
-  }
+  $timeout(function(){
+      intro.show();
+  }, 1750);
        
       
   // adding demo data
