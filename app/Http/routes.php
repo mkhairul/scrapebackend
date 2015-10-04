@@ -14,19 +14,27 @@
 use App\Product;
 use App\Package;
 
-use Request;
+use Illuminate\Http\Request;
+
 
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
+//Route::get('auth/logout', 'Auth\AuthController@getLogout');
+Route::get('auth/logout', function(){
+    Auth::logout();
+    return response()->json(['status' => 'ok']);
+});
+Route::get('auth/user', function(){
+    return response()->json(Auth::user());
+});
 
 Route::get('/', function () {
     return view('login');
 });
 
-Route::get('/main', function () {
+Route::get('/main', ['middleware' => 'auth', function () {
     return view('main');
-});
+}]);
 
 Route::post('/product', function(Request $request){
   $keyword = $request->input('keyword');

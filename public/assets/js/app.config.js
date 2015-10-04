@@ -75,4 +75,5 @@ app.config(['$routeProvider', function($routeProvider) {
 // set constants
 .run(['$rootScope', 'APP', function ($rootScope, APP) {
   $rootScope.APP = APP;
+  $rootScope.url = '/ikeabackend/public/';
 }]);

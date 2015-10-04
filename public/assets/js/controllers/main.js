@@ -1,6 +1,6 @@
 app.controller('MainController',
-  ['quoteService', '$scope', '$animate', 'localStorageService', 'todoService', '$alert', '$timeout', '$rootScope', 'PlaceholderTextService', 'ngTableParams', '$filter', '$http', '$window',
-  function(quoteService, $scope, $animate, localStorageService, todoService, $alert, $timeout, $rootScope, PlaceholderTextService, ngTableParams, $filter, $http, $window){
+  ['$location', 'quoteService', '$scope', '$animate', 'localStorageService', 'todoService', '$alert', '$timeout', '$rootScope', 'PlaceholderTextService', 'ngTableParams', '$filter', '$http', '$window',
+  function($location, quoteService, $scope, $animate, localStorageService, todoService, $alert, $timeout, $rootScope, PlaceholderTextService, ngTableParams, $filter, $http, $window){
 
   $scope.theme_colors = [
     'pink','red','purple','indigo','blue',
@@ -54,7 +54,6 @@ app.controller('MainController',
     introductionAlert.show();
   };
 
-
   var refererNotThemeforest = $alert({
     title: 'Hi there!',
     content: 'Testing.',
@@ -70,10 +69,7 @@ app.controller('MainController',
       refererNotThemeforest.show();
     }, 1750);
   }
-      
-      
-      
-      
+       
       
   // adding demo data
   var data = [];
@@ -150,5 +146,39 @@ app.controller('MainController',
   $scope.addProductToQuote = function(product){
       $scope.quoteService.add(product);
   }
+  
+  $scope.viewQuoteDetails = function(){
+      if($scope.quoteItems > 0)
+      {
+        $location.path('/quote_detail');
+      }
+      else
+      {
+          var refererNotThemeforest = $alert({
+            title: 'Can\'t View Quote Detail!',
+            content: 'Add an item to view quote detail',
+            placement: 'top-right',
+            type: 'theme',
+            container: '.alert-container-top-right',
+            show: true,
+            animation: 'mat-grow-top-right'
+          });
+      }
+  }
+  
+  $scope.logout = function(){
+      $http.get($rootScope.url + 'auth/logout')
+      .success(function(data){
+          $window.location.href = $rootScope.url;
+      });
+  }
+  
+  // Get users
+  $http.get($rootScope.url + 'auth/user')
+  .success(function(data){
+      $scope.user = data;
+  })
+  .error(function(){
+  });
   
 }]);
