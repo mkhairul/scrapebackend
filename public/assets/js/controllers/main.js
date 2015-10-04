@@ -112,7 +112,6 @@ app.controller('MainController',
   });
   
   $scope.product = [];
-  $scope.product_keyword = '';
   $scope.searchProduct = function(val)
   {
       $http.get($rootScope.url + '/product/' + val).
@@ -125,6 +124,7 @@ app.controller('MainController',
           {
               $scope.showError = false;
               $scope.product = data;
+              $scope.product_keyword = null;
           }
       })
       .error(function(data){
@@ -145,6 +145,9 @@ app.controller('MainController',
   
   $scope.addProductToQuote = function(product){
       $scope.quoteService.add(product);
+  }
+  $scope.removeProductFromQuote = function(index){
+      $scope.quoteService.remove(index);
   }
   
   $scope.viewQuoteDetails = function(){

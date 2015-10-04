@@ -1,5 +1,7 @@
 <aside class="sidebar fixed">
   <div class="brand-logo">
+    <div id="logo">
+    </div>
     JACE
   </div>
   <div class="user-logged-in">
@@ -7,7 +9,7 @@
       <div class="user-name">{{user.name}}</div>
       <div class="user-email">{{user.email}}</div>
       <div class="user-actions">
-        <a class="m-r-5" href="">settings</a> <a ng-click="logout()">logout</a>
+        <a ng-click="logout()">logout</a>
       </div>
     </div>
   </div>
@@ -16,7 +18,7 @@
     <a menu-link href="#/category" icon="">Categories</a>
     <a menu-link href="#/product" icon="">Products</a>
     <a menu-link href="#/package" icon="">Packages</a>
-    <a menu-link href="#/package" icon="">Logistics</a>
+    <a menu-link href="#/logistics" icon="">Logistics</a>
     <a menu-link href="#/user" icon="">Users</a>
   </ul>
 </aside>

@@ -13,13 +13,13 @@
 
 use App\Product;
 use App\Package;
+use App\Category;
 
 use Illuminate\Http\Request;
 
 
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
-//Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/logout', function(){
     Auth::logout();
     return response()->json(['status' => 'ok']);
@@ -28,8 +28,17 @@ Route::get('auth/user', function(){
     return response()->json(Auth::user());
 });
 
+Route::post('logistic/create', 'LogisticController@createCourier');
+Route::post('logistic/update', 'LogisticController@updateCourier');
+Route::get('logistic', 'LogisticController@getAll');
+
 Route::get('/', function () {
     return view('login');
+});
+
+Route::get('/categories', function(){
+    $result = Category::get();
+    return response()->json($result);
 });
 
 Route::get('/main', ['middleware' => 'auth', function () {

@@ -111,7 +111,6 @@
               </div>
             </div>
         </div>
-          
         <div class="row" ng-show="showError">
             <div class="col-md-12">
               <div class="bs-component">
@@ -122,8 +121,6 @@
               </div>
             </div>
         </div>
-        
-
         <div class="grey-text small p-t-20" ng-cloak>JACE - v{{APP.version}}</div>
       </div>
     </div>
@@ -158,12 +155,14 @@
             <table class="table table-small grey-text">
               <colgroup>
                 <col width="">
+                <col width="">
                 <col width="" />
               </colgroup>
               <tbody>
                   <tr ng-repeat="item in quoteItems track by $index">
                     <td>{{item.article_id}} - {{item.name}}</td>
                     <td>{{item.price}}</td>
+                      <td><a ng-click="removeProductFromQuote($index)"><i class="md md-delete red-text"></i></a></td>
                   </tr>
               </tbody>
             </table>
@@ -172,200 +171,6 @@
         </div>
       </div>
 
-      <div class="p-h-40">
-
-        <div role="tabpanel">
-          <!-- Nav tabs -->
-          <ul class="nav nav-tabs" role="tablist" ng-init="actionTab=1">
-            <li role="presentation" class="active"><a ng-click="actionTab=1" aria-controls="home" role="tab" data-toggle="tab">Log</a></li>
-            <li role="presentation" class=""><a ng-click="actionTab=2" aria-controls="home" role="tab" data-toggle="tab">Timeline</a></li>
-            <li role="presentation"><a ng-click="actionTab=3" aria-controls="home" role="tab" data-toggle="tab">Messages</a></li>
-          </ul>
-          <!-- Tab panes -->
-          <div class="tab-content m-t-10">
-            <div role="tabpanel" class="tab-pane" ng-class="{active: actionTab==1}">
-
-              <ul class="timeline">
-                <li>
-                  <div class="timeline-badge">
-                    <i class="icon-circle theme-border"></i>
-                  </div>
-                  <div class="timeline-panel">
-                    <div class="timeline-heading">
-                      <h4 class="timeline-title">E-mail confirmation</h4>
-                    </div>
-                    <div class="timeline-body">
-                      <p>A new user has registered and confirmed his account</p>
-                      <small class="text-muted"><i class="md md-timer"></i> 11 hours ago</small>
-                    </div>
-                  </div>
-                </li>
-                <li class="timeline-inverted">
-                  <div class="timeline-badge">
-                    <i class="icon-circle theme-secondary-border"></i>
-                  </div>
-                  <div class="timeline-panel">
-                    <div class="timeline-heading">
-                      <h4 class="timeline-title">User payment</h4>
-                    </div>
-                    <div class="timeline-body">
-                      <p>A new user has payed a premium package</p>
-                      <small class="text-muted"><i class="md md-timer"></i> 11 hours ago</small>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="timeline-badge">
-                    <i class="icon-circle green-border"></i>
-                  </div>
-                  <div class="timeline-panel">
-                    <div class="timeline-heading">
-                      <h4 class="timeline-title">E-mail confirmation</h4>
-                    </div>
-                    <div class="timeline-body">
-                      <p>A new user has registered and confirmed his account</p>
-                      <small class="text-muted"><i class="md md-timer"></i> 11 hours ago</small>
-                    </div>
-                  </div>
-                </li>
-                <li class="timeline-inverted">
-                  <div class="timeline-badge">
-                    <i class="icon-circle red-border accent-1"></i>
-                  </div>
-                  <div class="timeline-panel">
-                    <div class="timeline-heading">
-                      <h4 class="timeline-title">User payment</h4>
-                    </div>
-                    <div class="timeline-body">
-                      <p>A new user has payed a premium package</p>
-                      <small class="text-muted"><i class="md md-timer"></i> 11 hours ago</small>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="timeline-badge">
-                    <i class="icon-circle theme-border"></i>
-                  </div>
-                  <div class="timeline-panel">
-                    <div class="timeline-heading">
-                      <h4 class="timeline-title">E-mail confirmation</h4>
-                    </div>
-                    <div class="timeline-body">
-                      <p>A new user has registered and confirmed his account</p>
-                      <small class="text-muted"><i class="md md-timer"></i> 11 hours ago</small>
-                    </div>
-                  </div>
-                </li>
-                <li class="timeline-inverted">
-                  <div class="timeline-badge">
-                    <i class="icon-circle brown-border"></i>
-                  </div>
-                  <div class="timeline-panel">
-                    <div class="timeline-heading">
-                      <h4 class="timeline-title">User payment</h4>
-                    </div>
-                    <div class="timeline-body">
-                      <p>A new user has payed a premium package</p>
-                      <small class="text-muted"><i class="md md-timer"></i> 11 hours ago</small>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-
-            </div>
-            <div role="tabpanel" class="tab-pane" ng-class="{active: actionTab==2}">
-
-              <ul class="timeline" ng-init="(rows=[]).length=5;">
-                <li ng-repeat="i in rows track by $index">
-                  <div class="timeline-badge"><img placeholder-img class="img-responsive" /></div>
-                  <div class="timeline-panel">
-                    <div class="timeline-heading">
-                      <h4 class="timeline-title" placeholder-name></h4>
-                    </div>
-                    <div class="timeline-body">
-                      <span placeholder-p></span>
-                      <small class="text-muted"><i class="md md-timer"></i> 11 hours ago</small>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-
-            </div>
-            <div role="tabpanel" class="tab-pane" ng-class="{active: actionTab==3}">
-
-              <ul class="timeline" ng-init="(rows=[]).length=5;">
-                <li ng-repeat="i in rows track by $index">
-                  <div class="timeline-badge" placeholder-icon></div>
-                  <div class="timeline-panel">
-                    <div class="timeline-heading">
-                      <h4 class="timeline-title" placeholder-name></h4>
-                    </div>
-                    <div class="timeline-body">
-                      <span spanlaceholder-p></span>
-                      <small class="text-muted"><i class="md md-timer"></i> 11 hours ago</small>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="p-20">
-        <div class="row">
-          <div class="col-xs-4">
-            <c3chart bindto-id="chart-gauge-1">
-              <chart-column column-id="Gauge"
-                            column-type="gauge"
-                            column-values="80" />
-              <chart-gauge width="3" />
-              <chart-tooltip show-tooltip="false" />
-              <chart-legend show="false" />
-              <chart-size chart-height="60px" />
-              <chart-colors color-pattern="{{color_pattern}}" />
-            </c3chart>
-            <div class="text-center small">New visitors</div>
-          </div>
-          <div class="col-xs-4">
-            <c3chart bindto-id="chart-gauge-2">
-              <chart-column column-id="Gauge"
-                            column-type="gauge"
-                            column-values="30" />
-              <chart-gauge width="3" />
-              <chart-tooltip show-tooltip="false" />
-              <chart-size chart-height="60px" />
-              <chart-colors color-pattern="{{color_pattern}}" />
-            </c3chart>
-            <div class="text-center small">Conversions</div>
-          </div>
-          <div class="col-xs-4">
-            <c3chart bindto-id="chart-gauge-3">
-              <chart-column column-id="Gauge"
-                            column-type="gauge"
-                            column-values="40" />
-              <chart-gauge width="3" />
-              <chart-tooltip show-tooltip="false" />
-              <chart-size chart-height="60px" />
-              <chart-colors color-pattern="{{color_pattern}}" />
-            </c3chart>
-            <div class="text-center small">Bounce rate</div>
-          </div>
-        </div>
-      </div>
-
-      <c3chart bindto-id="chart-pagesviews" padding-bottom="-8px">
-        <chart-column column-id="Pageviews"
-                      column-values="3,4,5,10,20,14,18,12,10,20,10,14,15,10,20,14,18,12,10,20"
-                      column-type="area" />
-        <chart-axis-y show="false" />
-        <chart-axis-x show="false" />
-        <chart-legend show-legend="false" />
-        <chart-size chart-height="100px" />
-        <chart-tooltip show-tooltip="true" />
-        <chart-colors color-pattern="#fff" />
-      </c3chart>
     </div>
 
   </div>

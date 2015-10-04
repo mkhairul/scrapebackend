@@ -1,0 +1,11 @@
+.breadcrumb > li + li:before{
+    content: "/\00a0" !important;
+}
+
+#logo{
+    background: url(../img/favicon/favicon-196x196.png) center center no-repeat;
+    background-size:contain;
+    width: 45px;
+    height: 45px;
+    vertical-align: middle;
+}

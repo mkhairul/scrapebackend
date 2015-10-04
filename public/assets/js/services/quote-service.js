@@ -7,6 +7,10 @@ app.factory('quoteService', ['$rootScope', function ($rootScope) {
         obj.item.push(item);
     }
     
+    obj.remove = function(index){
+        obj.item.splice(index, 1);
+    }
+    
     obj.getItems = function(){
         return obj.item;
     }
