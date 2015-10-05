@@ -28,6 +28,7 @@ class LogisticController extends Controller
         $courier = new Courier;
         $courier->name = $request->input('name');
         $courier->conditions = $request->input('conditions');
+        $courier->price_per_unit = $request->input('price_per_unit');
         $courier->save();
         
         return response()->json(['status' => 'ok']);
@@ -48,6 +49,7 @@ class LogisticController extends Controller
         $courier = Courier::find($request->input('id'));
         $courier->name = $request->input('name');
         $courier->conditions = $request->input('conditions');
+        $courier->price_per_unit = $request->input('price_per_unit');
         $courier->save();
         
         return response()->json(['status' => 'ok']);

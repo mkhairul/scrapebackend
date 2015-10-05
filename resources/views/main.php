@@ -128,6 +128,7 @@
   <script charset="utf-8" src="bower_components/angulartics/dist/angulartics-ga.min.js"></script>
 
   <script charset="utf-8" src="bower_components/satellizer/satellizer.min.js"></script>
+  <script charset="utf-8" src="bower_components/accounting.js/accounting.min.js"></script>
   <!-- endbuild -->
   <!-- build:js assets/js/app.min.js -->
   <script charset="utf-8" src="assets/js/vendors/angular-placeholders.js"></script>
@@ -183,6 +184,7 @@
   <script charset="utf-8" src="assets/js/controllers/apps/todo.js"></script>
   <script charset="utf-8" src="assets/js/controllers/category.js"></script>
   <script charset="utf-8" src="assets/js/controllers/logistics.js"></script>
+  <script charset="utf-8" src="assets/js/controllers/quote.js"></script>
   <!-- endbuild -->
 </body>
 </html>

@@ -9,3 +9,18 @@
     height: 45px;
     vertical-align: middle;
 }
+
+.quote tfoot{ border-top: 2px solid #9f9f9f; }
+.quote .label_right{
+    text-align: right !important;
+    padding-right: 5px;
+}
+.quote .total{
+    font-size: 1.5em;
+}
+
+.table-full-small tfoot > tr > td:first-child{
+    padding-left: 20px; 
+}
+
+.modal { text-align: left !important; }

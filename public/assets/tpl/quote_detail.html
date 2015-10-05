@@ -1,0 +1,70 @@
+<div class="dashboard grey lighten-3" ng-controller="QuoteController">
+  <div class="row no-gutter">
+
+    <div class="col-sm-12 col-md-12 col-lg-12">
+
+      <div class="p-20 clearfix">
+        <h4 class="grey-text">
+          <i class="md md-dashboard"></i>
+          <span class="hidden-xs">Quote Detail</span>
+        </h4>
+      </div>
+      
+      <div class="p-20 no-p-t">
+        <div class="row m-b-40">
+            <div class="col-md-12">
+              <div class="card no-margin">
+
+                <div class="table-responsive">
+                    <h3 class="table-title p-20">New Quote</h3>
+                    <table class="table table-hover table-full table-full-small quote">
+                      <colgroup>
+                        <col width="">
+                        <col width="">
+                        <col width="" />
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          <th>Article No - Name</th>
+                          <th>Price</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="item in quoteItems track by $index">
+                            <td>{{item.article_id}} - {{item.name}}</td>
+                            <td>{{item.price}}</td>
+                            <td><a ng-click="removeProductFromQuote($index)"><i class="md md-delete red-text"></i></a></td>
+                          </tr>
+                          
+                      </tbody>
+                      <tfoot>
+                          <tr ng-if="quoteService.selected_courier">
+                            <td class="label_right">Shipping To 
+                                <a data-animation="am-fade-and-slide-top" 
+                                   data-template="assets/tpl/partials/shipping_country.html" 
+                                   bs-modal="modal">{{quoteService.getCountry().country}}</a> 
+                                {{' - ' + quoteService.selected_courier.name}}
+                            </td>
+                            <td>{{quoteService.shipping_cost}}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td class="label_right total">
+                                Total
+                            </td>
+                            <td class="total">{{quoteService.total_price}}</td>
+                            <td></td>
+                          </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="grey-text small p-t-20" ng-cloak>JACE - v{{APP.version}}</div>
+      </div>
+      
+    </div>
+ </div>
+</div>

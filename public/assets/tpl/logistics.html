@@ -22,11 +22,15 @@
                 <form class="form-floating">
 
                   <fieldset>
-                    <legend>New Courier</legend>
+                    <legend>{{courier.action.charAt(0).toUpperCase() + courier.action.slice(1)}} Courier</legend>
                     <span class="help-block mw400">create new courier</span>                    
                     <div class="form-group">
                       <input class="form-control" id="focusedInput" type="text" ng-model="courier.name" value="{{courier.name}}">
                       <label class="control-label" for="focusedInput">Name</label>
+                    </div>
+                    <div class="form-group">
+                      <input class="form-control" id="focusedInput" type="text" ng-model="courier.price_per_unit" value="{{courier.price_per_unit}}">
+                      <label class="control-label" for="focusedInput">Price Per Unit</label>
                     </div>
                     
                     <div class="form-group">
@@ -99,6 +103,7 @@
                     <tr>
                       <th>ID</th>
                       <th>Name</th>
+                      <th>Price Per Unit</th>
                       <th>Conditions</th>
                     </tr>
                     </thead>
@@ -107,6 +112,7 @@
                     <tr ng-repeat="(key, item) in couriers | filter:keyword">
                       <td>{{ item.id }}</td>
                       <td><a ng-click="selectCourier(item)">{{ item.name }}</a></td>
+                      <td>{{item.price_per_unit}}</td>
                       <td>{{ item.conditions.length }}</td>
                     </tr>
                     </tbody>

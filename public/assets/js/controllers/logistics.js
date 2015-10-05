@@ -51,16 +51,22 @@ app.controller('LogisticController',
       if(data.action == 'new')
       {
           action = 'create';
-          post = { 'name':data.name, 'conditions':JSON.stringify(data.conditions) };
+          post = { 'name':data.name, 'price_per_unit':data.price_per_unit, 
+                   'conditions':JSON.stringify(data.conditions) };
       }
       else if(data.action == 'update')
       {
           action = 'update';
-          post = { 'id': data.id, 'name':data.name, 'conditions':JSON.stringify(data.conditions) }
+          post = { 'id': data.id, 'name':data.name, 
+                   'price_per_unit':data.price_per_unit, 
+                   'conditions':JSON.stringify(data.conditions) }
       }
       $http.post($rootScope.url + 'logistic/' + action, post)
       .success(function(data){
-          $scope.couriers.push($scope.courier);
+          if(data.action == 'new')
+          {
+            $scope.couriers.push($scope.courier);
+          }
           $scope.courier = {};
       })
       .error(function(data){
