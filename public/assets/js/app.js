@@ -16,6 +16,7 @@ var app = angular.module('materialism', [
 
   'uiGmapgoogle-maps',
   'ui.select',
+  'hljs',
 
   'gridshore.c3js.chart',
   'monospaced.elastic',     // resizable textarea

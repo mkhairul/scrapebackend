@@ -28,13 +28,13 @@ app.factory('quoteService',
         obj.item.push(item);
         // Calculate shipping
         obj.calculateShipping();
-        localStorageService.set('quote', obj.item);
+        obj.saveItem();
     }
     
     obj.remove = function(index){
         obj.item.splice(index, 1);
         obj.calculateShipping();
-        localStorageService.set('quote', obj.item);
+        obj.saveItem();
     }
     
     obj.calculateShipping = function()
@@ -147,7 +147,17 @@ app.factory('quoteService',
         console.log(obj);
         console.log(country);
     }
-    
+    obj.saveNote = function(index, note){
+        obj.item[index].note = note;
+        obj.saveItem();
+    }
+    obj.clearNote = function(index){
+        delete obj.item[index].note;
+        obj.saveItem();
+    } 
+    obj.saveItem = function(){
+        localStorageService.set('quote', obj.item);
+    } 
     obj.getCountry = function(){
         return obj;
     }
@@ -155,6 +165,12 @@ app.factory('quoteService',
     obj.getItems = function(){
         obj.calculateShipping();
         return obj.item;
+    }
+    
+    obj.clear = function(){
+        delete obj.item;
+        obj.item = [];
+        obj.saveItem();
     }
     
     return obj;

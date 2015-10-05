@@ -91,6 +91,7 @@
                       <th>ID</th>
                       <th>Product</th>
                       <th>Packages</th>
+                      <th>Availability</th>
                       <th>Actions</th>
                     </tr>
                     </thead>
@@ -100,6 +101,11 @@
                       <td>{{ item.article_id }}</a></td>
                       <td><a ng-click="selectProduct(item)">{{ item.name }}</a></td>
                       <td>{{ item.packages.length }}</td>
+                      <td>
+                          <a ng-click="getAvailability(item)">
+                              {{(item.availability) ? item.availability:'Check'}}
+                          </a>
+                      </td>
                       <td>
                           <button type="button" class="btn btn-xs btn-round btn-info" ng-click="openURL(item.url)"><span class="md md-launch"></span><div class="ripple-wrapper"></div></button>
                           <button type="button" class="btn btn-xs btn-round btn-success" ng-click="addProductToQuote(item)"><span class="md md-add"></span><div class="ripple-wrapper"></div></button>
@@ -149,7 +155,8 @@
         <div class="card">
           <div class="p-10 p-l-20 p-r-20 clearfix">
             <div class="badge pull-right">{{quoteItems.length}}</div>
-            <div class="w600 f11 grey-text"><a href="#/quote_detail">New Quote</a></div>
+            <div class="pull-right p-r-20" ng-if="quoteItems.length > 0"><a ng-click="clearQuote()">Clear All</a></div>
+            <div class="w600 f11 grey-text"><a href="#/quote_detail">New Quote</a> </div>
           </div>
           <div class="table-responsive">
             <table class="table table-small grey-text">

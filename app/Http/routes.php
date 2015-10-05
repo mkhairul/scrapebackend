@@ -36,6 +36,22 @@ Route::get('/', function () {
     return view('login');
 });
 
+Route::match(['GET','POST'], '/product/availability', function(Request $request){
+    $article_id = ($request->input('id')) ? $request->input('id'):'30298792';
+    //$contents = file_get_contents('http://www.ikea.com/my/en/iows/catalog/availability/' . $article_id);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,'http://www.ikea.com/my/en/iows/catalog/availability/' . $article_id);
+    curl_setopt($ch, CURLOPT_FAILONERROR,1);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    $contents = curl_exec($ch);
+    curl_close($ch);
+
+    $xml = simplexml_load_string($contents) or die("Error: Cannot create object");
+    return response()->json($xml->availability->localStore);
+});
+
 Route::get('/categories', function(){
     $result = Category::get();
     return response()->json($result);

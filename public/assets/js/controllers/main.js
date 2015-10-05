@@ -104,6 +104,13 @@ app.controller('MainController',
               $scope.showError = false;
               $scope.product = data;
               $scope.product_keyword = null;
+              
+              /*
+              for(var i in $scope.product)
+              {
+                  $scope.getAvailibility($scope.product[i]);
+              }
+              */
           }
       })
       .error(function(data){
@@ -152,6 +159,22 @@ app.controller('MainController',
       $http.get($rootScope.url + 'auth/logout')
       .success(function(data){
           $window.location.href = $rootScope.url;
+      });
+  }
+  
+  $scope.clearQuote = function(){
+      $scope.quoteService.clear();
+      $scope.quoteItems = $scope.quoteService.getItems();
+  }
+  
+  $scope.getAvailability = function(item){
+      item.availability = 'Loading';
+      $http.post($rootScope.url + 'product/availability', {id:item.article_id})
+      .success(function(data){
+          item.availability = data.stock.availableStock;
+      })
+      .error(function(data){
+          item.availability = 'error';
       });
   }
   

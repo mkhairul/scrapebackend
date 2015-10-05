@@ -18,9 +18,18 @@
 .quote .total{
     font-size: 1.5em;
 }
+.quote td{ vertical-align: top !important; }
 
 .table-full-small tfoot > tr > td:first-child{
     padding-left: 20px; 
 }
 
 .modal { text-align: left !important; }
+
+.monotextarea{
+  border:1px solid #999999;
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+
+}
+
+a{ cursor: pointer; }

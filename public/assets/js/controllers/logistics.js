@@ -6,6 +6,7 @@ app.controller('LogisticController',
   $scope.couriers = [];    
   $scope.courier = {};
   $scope.newCourier = function(){
+      $scope.courier = {};
       $scope.courier.action = 'new';
   }
   $scope.hideNewCourier = function(){ $scope.courier.action = '' };
