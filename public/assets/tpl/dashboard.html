@@ -92,6 +92,7 @@
                       <th>Product</th>
                       <th>Packages</th>
                       <th>Availability</th>
+                      <th>Price</th>
                       <th>Actions</th>
                     </tr>
                     </thead>
@@ -106,6 +107,7 @@
                               {{(item.availability) ? item.availability:'Check'}}
                           </a>
                       </td>
+                      <td>{{item.price}}</td>
                       <td>
                           <button type="button" class="btn btn-xs btn-round btn-info" ng-click="openURL(item.url)"><span class="md md-launch"></span><div class="ripple-wrapper"></div></button>
                           <button type="button" class="btn btn-xs btn-round btn-success" ng-click="addProductToQuote(item)"><span class="md md-add"></span><div class="ripple-wrapper"></div></button>

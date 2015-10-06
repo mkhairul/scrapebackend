@@ -137,7 +137,7 @@ app.controller('MainController',
   }
   
   $scope.viewQuoteDetails = function(){
-      if($scope.quoteItems > 0)
+      if($scope.quoteItems.length > 0)
       {
         $location.path('/quote_detail');
       }

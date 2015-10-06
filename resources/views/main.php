@@ -189,6 +189,7 @@
   <script charset="utf-8" src="assets/js/controllers/category.js"></script>
   <script charset="utf-8" src="assets/js/controllers/logistics.js"></script>
   <script charset="utf-8" src="assets/js/controllers/quote.js"></script>
+  <script charset="utf-8" src="assets/js/controllers/user.js"></script>
   <!-- endbuild -->
 </body>
 </html>

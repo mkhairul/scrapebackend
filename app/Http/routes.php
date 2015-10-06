@@ -14,6 +14,7 @@
 use App\Product;
 use App\Package;
 use App\Category;
+use App\User;
 
 use Illuminate\Http\Request;
 
@@ -26,6 +27,38 @@ Route::get('auth/logout', function(){
 });
 Route::get('auth/user', function(){
     return response()->json(Auth::user());
+});
+Route::get('users', function(){
+    $result = User::select('name', 'email')->get();
+    return response()->json($result);
+});
+Route::post('user/create', function(Request $request){
+    $user_exists = User::where('email', $request->input('email'))->first();
+    if($user_exists)
+    {
+        return response()->json(['message' => 'Email already exists'], 500);
+    }
+    
+    $user = new User;
+    $user->name = $request->input('name');
+    $user->email = $request->input('email');
+    $user->password = bcrypt($request->input('password'));
+    $user->save();
+    return response()->json(['status' => 'ok']);
+});
+
+Route::post('user/update', function(Request $request){
+    $id = $request->input('id');
+    $user = User::find($id);
+    if(!$user)
+    {
+        return response()->json(['message' => 'User does not exists'], 500);
+    }
+    $user->name = $request->input('name');
+    $user->email = $request->input('email');
+    $user->password = bcrypt($request->input('password'));
+    $user->save();
+    return response()->json(['status' => 'ok']);
 });
 
 Route::post('logistic/create', 'LogisticController@createCourier');
