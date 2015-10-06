@@ -13,7 +13,9 @@ module.exports.tasks = {
   // clean generated files
   clean: {
     demo: [
-      '<%= paths.dist %>'
+      '<%= paths.dist %>',
+      '<%= paths.assets %>/css/*.min.css',
+      '<%= paths.assets %>/js/*.min.js',    
     ]
   },
 

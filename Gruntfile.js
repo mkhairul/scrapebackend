@@ -5,25 +5,14 @@ module.exports = function(grunt) {
   var pkg = grunt.file.readJSON('package.json');
 
   var options = {
-    /*
-    paths: {
-      app: 'app',
-      assets: 'app/assets',
-      dist: 'app/dist',
-      distAssets: 'app/dist/assets',
-      html: 'app/html',
-      htmlTmp: '.tmp/htmlsnapshot',
-      htmlAssets: 'app/html/assets',
-      index: 'app/dist/index.html',
-      indexDev: 'app/index.dev.html',
-      indexTmp: '.tmp/html/index.html'
-    },
-    */
     paths: {
       app: 'public',
       assets: 'public/assets',
       dist: 'public_dist', 
       distAssets: 'public_dist/assets',
+      html: 'public/html',
+      htmlTmp: '.tmp/htmlsnapshot',
+      htmlAssets: 'public/html/assets',
       index: 'public_dist/main.php',
       indexDev: 'resources/views/main.php',
       indexTmp: '.tmp/html/main.php'
@@ -74,8 +63,12 @@ module.exports = function(grunt) {
     'copy:postusemin',
     'copy:dist',
     'grep:dist',
-    'compress',
+    //'compress',
     'copy:postusemin',
     'grep:demo',
+  ]);
+    
+  grunt.registerTask('cleanmin', [
+    'clean:demo'
   ]);
 };

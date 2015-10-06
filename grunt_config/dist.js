@@ -6,11 +6,19 @@ module.exports.tasks = {
         { cwd: '<%= paths.distAssets %>/css', 
           expand: true,
           src: '*', 
-          dest: 'public/assets/css' },
+          dest: 'public/assets/css',
+		  rename: function(dest, src){
+			return dest + '/' + src.split('.')[0] + '.min.css';
+		  }
+        },
         { cwd: '<%= paths.distAssets %>/js', 
           expand: true,
           src: '*', 
-          dest: 'public/assets/js' }
+          dest: 'public/assets/js',
+		  rename: function(dest, src){
+			return dest + '/' + src.split('.')[0] + '.min.js';
+		  }
+        }
       ]
     }
   },
