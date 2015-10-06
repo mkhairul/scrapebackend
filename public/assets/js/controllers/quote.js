@@ -53,7 +53,7 @@ app.controller('QuoteController',
       var lazeefee_text = sprintf('%s', $scope.quoteService.lazeefee);
       
       $scope.quoteText = sprintf(template, 
-                                 $scope.quoteService.total_price,
+                                 accounting.toFixed($scope.quoteService.total_price, 2),
                                  item_text,
                                  delivery_text,
                                  lazeefee_text);
