@@ -33,21 +33,30 @@ app.controller('QuoteController',
   }
   
   $scope.viewQuoteAsText = function(){
-      var text = '';
+      var template = 'Total cost: RM%s. The breakdown list is as follow:\n\n' +
+                     '%s\n' + 
+                     'Delivery charges: RM%s\n' + 
+                     'LazeeFee (includes shopping, packaging & handling fees): RM%s';
+      var item_text = '';
       var items = $scope.quoteItems;
       for(var i in items)
       {
-          text += sprintf('%30s %-10s\n', (items[i].name + '(' + items[i].article_id + ')'), items[i].price);
+          item_text += sprintf('%d x %s: RM%s\n', items[i].quantity, items[i].name, (accounting.unformat(items[i].price)*items[i].quantity));
+          item_text += sprintf('Article No.: %s\n', items[i].article_id);
           if(items[i].note)
           {
-              text += sprintf('%30s\n', '*'+items[i].note.val);
+              item_text += sprintf('Note:\n', items[i].note.val);
           }
       }
-      text += '-'.repeat(41) + '\n';
-      text += sprintf('%30s %-10s\n', 'Shipping', $scope.quoteService.shipping_cost);
-      text += '='.repeat(41) + '\n';
-      text += sprintf('%30s %-10s\n', 'Total Price', $scope.quoteService.total_price);
-      $scope.quoteText = text;
+      
+      var delivery_text = sprintf('%s', $scope.quoteService.shipping_cost);
+      var lazeefee_text = sprintf('%s', $scope.quoteService.lazeefee);
+      
+      $scope.quoteText = sprintf(template, 
+                                 $scope.quoteService.total_price,
+                                 item_text,
+                                 delivery_text,
+                                 lazeefee_text);
   }
   $scope.hideQuoteText = function(){
       delete $scope.quoteText;

@@ -25,20 +25,47 @@ app.factory('quoteService',
     }
     
     obj.add = function(item){
-        obj.item.push(item);
+        
+        // Check if item already exists
+        var exists = false;
+        var exists_index;
+        for(var i in obj.item)
+        {
+            if(obj.item[i].article_id == item.article_id)
+            {
+                exists = true;
+                exists_index = i;
+            }
+        }
+        
+        if(exists == true)
+        {
+            obj.item[i].quantity += 1;
+        }
+        else
+        {
+            item.quantity = 1;
+            obj.item.push(item);
+        }
         // Calculate shipping
         obj.calculateShipping();
         obj.saveItem();
     }
     
     obj.remove = function(index){
-        obj.item.splice(index, 1);
+        if(obj.item[index].quantity > 1)
+        {
+            obj.item[index].quantity -= 1;
+        }
+        else
+        {
+            obj.item.splice(index, 1);
+        }
         obj.calculateShipping();
         obj.saveItem();
     }
     
-    obj.calculateShipping = function()
-    {
+    obj.calculateShipping = function(){
         obj.weight = [];
         obj.total_weight = 0;
         obj.selected_courier = {};
@@ -74,6 +101,10 @@ app.factory('quoteService',
                 {
                     package_weight = weight;
                 }
+            }
+            if(obj.item[i].quantity)
+            {
+                package_weight = package_weight * obj.item[i].quantity;
             }
             obj.weight.push(package_weight);
         }
@@ -126,18 +157,21 @@ app.factory('quoteService',
 
         })
     }
-    
     obj.calculateTotal = function(){
         obj.total_price = 0;
         for(var i in obj.item)
         {
-            obj.total_price += accounting.unformat(obj.item[i].price);
+            obj.total_price += accounting.unformat(obj.item[i].price) * obj.item[i].quantity;
         }
         obj.total_price += accounting.unformat(obj.shipping_cost);
         
+        // Lazee Fee
+        obj.lazeefee = accounting.toFixed(obj.total_price * 0.1, 2);
+        
+        obj.total_price += accounting.unformat(obj.lazeefee);
+        
         console.log(obj);
     }
-    
     obj.changeCountry = function(country){
         if(country)
         {
@@ -161,12 +195,10 @@ app.factory('quoteService',
     obj.getCountry = function(){
         return obj;
     }
-    
     obj.getItems = function(){
         obj.calculateShipping();
         return obj.item;
     }
-    
     obj.clear = function(){
         delete obj.item;
         obj.item = [];

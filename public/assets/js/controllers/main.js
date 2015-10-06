@@ -2,6 +2,7 @@ app.controller('MainController',
   ['$location', 'quoteService', '$scope', '$animate', 'localStorageService', 'todoService', '$alert', '$timeout', '$rootScope', 'PlaceholderTextService', 'ngTableParams', '$filter', '$http', '$window',
   function($location, quoteService, $scope, $animate, localStorageService, todoService, $alert, $timeout, $rootScope, PlaceholderTextService, ngTableParams, $filter, $http, $window){
 
+  $scope.accounting = accounting;
   $scope.theme_colors = [
     'pink','red','purple','indigo','blue',
     'light-blue','cyan','teal','green','light-green',

@@ -17,7 +17,7 @@
                     <h3 class="table-title p-20">
                         <a ng-click="hideQuoteText()"><i class="md md-clear"></i></a>Quote as Text
                     </h3>
-                    <textarea class="form-control vertical monotextarea" language="dos" rows="3" id="textArea" ng-model="quoteText"></textarea>
+                    <textarea class="form-control vertical monotextarea" rows="10" id="textArea" ng-model="quoteText"></textarea>
                 </div>
             </div>
             <div class="col-md-12">
@@ -58,7 +58,9 @@
                         <tr>
                           <th>No</th>
                           <th>Article No - Name</th>
-                          <th>Price(RM)</th>
+                          <th>Quantity</th>
+                          <th>Unit Price(RM)</th>
+                          <th>Amount(RM)</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -71,18 +73,19 @@
                                     {{item.note.val}}
                                 </p>
                             </td>
+                            <td>{{item.quantity}}</td>
                             <td>{{accounting.unformat(item.price)}}</td>
+                            <td>{{accounting.unformat(item.price)*item.quantity}}</td>
                             <td>
                                 <a ng-click="addNote(item, $index)" class="btn btn-default"><i class="md md-speaker-notes"></i></a>
-                                <a ng-click="removeProductFromQuote($index)" class="btn btn-default"><i class="md md-delete red-text"></i></a>
+                                <a ng-click="quouteService($index)" class="btn btn-default"><i class="md md-delete red-text"></i></a>
                             </td>
                           </tr>
                           
                       </tbody>
                       <tfoot>
                           <tr ng-if="quoteService.selected_courier">
-                            <td></td>
-                            <td class="label_right">
+                            <td class="label_right" colspan="4">
                                 <!-- (<a ng-click="viewShippingDetails()">View Details</a>) -->
                                 Shipping To 
                                 <a data-animation="am-fade-and-slide-top" 
@@ -94,8 +97,7 @@
                             <td></td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td class="label_right total">
+                            <td class="label_right total" colspan="4">
                                 Total
                             </td>
                             <td class="total">{{quoteService.total_price}}</td>

@@ -169,9 +169,12 @@
               </colgroup>
               <tbody>
                   <tr ng-repeat="item in quoteItems track by $index">
-                    <td>{{item.article_id}} - {{item.name}}</td>
-                    <td>{{item.price}}</td>
-                      <td><a ng-click="removeProductFromQuote($index)"><i class="md md-delete red-text"></i></a></td>
+                    <td>
+                        {{item.article_id}} - {{item.name}}
+                        <span ng-if="item.quantity > 1"> x {{item.quantity}}</span>
+                    </td>
+                    <td>{{accounting.unformat(item.price) * item.quantity}}</td>
+                    <td><a ng-click="removeProductFromQuote($index)"><i class="md md-delete red-text"></i></a></td>
                   </tr>
               </tbody>
             </table>
