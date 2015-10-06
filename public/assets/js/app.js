@@ -10,7 +10,6 @@ var app = angular.module('jace', [
   'ngTable',
 
   'angular-loading-bar',
-  'satellizer',
   'angulartics',
   'angulartics.google.analytics',
 

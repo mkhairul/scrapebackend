@@ -56,22 +56,6 @@ app.config(['$routeProvider', function($routeProvider) {
   $animateProvider.classNameFilter(/^(?:(?!ng-animate-disabled).)*$/);
 }])
 
-.config(['$authProvider', function($authProvider) {
-    $authProvider.httpInterceptor = true;
-    $authProvider.withCredentials = true;
-    $authProvider.tokenRoot = null;
-    $authProvider.cordova = false;
-    $authProvider.baseUrl = '/';
-    $authProvider.loginUrl = '/auth/login';
-    $authProvider.signupUrl = '/auth/signup';
-    $authProvider.unlinkUrl = '/auth/unlink/';
-    $authProvider.tokenName = 'token';
-    $authProvider.tokenPrefix = 'jace';
-    $authProvider.authHeader = 'Authorization';
-    $authProvider.authToken = 'Bearer';
-    $authProvider.storageType = 'localStorage';
-}])
-
 // set constants
 .run(['$rootScope', 'APP', function ($rootScope, APP) {
   $rootScope.APP = APP;

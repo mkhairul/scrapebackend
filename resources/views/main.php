@@ -127,12 +127,6 @@
   <script charset="utf-8" src="bower_components/angulartics/dist/angulartics.min.js"></script>
   <script charset="utf-8" src="bower_components/angulartics/dist/angulartics-ga.min.js"></script>
 
-  <script charset="utf-8" src="bower_components/satellizer/satellizer.min.js"></script>
-  <script charset="utf-8" src="bower_components/accounting.js/accounting.min.js"></script>
-  <script charset="utf-8" src="bower_components/sprintf/dist/sprintf.min.js"></script>
-    
-  <script charset="utf-8" src="bower_components/highlightjs/highlight.pack.min.js"></script>
-  <script charset="utf-8" src="bower_components/angular-highlightjs/build/angular-highlightjs.min.js"></script>
   <!-- endbuild -->
   <!-- build:js assets/js/app.min.js -->
   <script charset="utf-8" src="assets/js/vendors/angular-placeholders.js"></script>

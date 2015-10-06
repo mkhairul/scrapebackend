@@ -7,6 +7,7 @@ var gulpFilter = require('gulp-filter');
 var mainBowerFiles = require('gulp-main-bower-files');
 var cssmin = require('gulp-cssmin');
 var usemin = require('gulp-usemin');
+var sourcemaps = require('gulp-sourcemaps');
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -32,7 +33,7 @@ gulp.task('usemin', function(){
         .pipe(usemin({
             assetsDir: 'public',
             css: [ cssmin, 'concat' ],
-            js: [ uglify, 'concat']
+            js: [ sourcemaps.init(), 'concat', uglify, sourcemaps.write('.')]
         }))
         .pipe(gulp.dest('dist'));
 });

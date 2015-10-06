@@ -1,4 +1,4 @@
-app.directive('navbarScroll', function($window) {
+app.directive('navbarScroll', ['$window', function($window) {
   return {
     restrict: 'A',
     link: function(scope, element, attr) {
@@ -12,4 +12,4 @@ app.directive('navbarScroll', function($window) {
       });
     }
   };
-});
+}]);
