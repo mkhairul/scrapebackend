@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="materialism" ng-class="{'full-page-map': isFullPageMap}">
+<html lang="en" ng-app="jace" ng-class="{'full-page-map': isFullPageMap}">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
