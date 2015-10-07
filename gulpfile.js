@@ -33,7 +33,7 @@ gulp.task('usemin', function(){
         .pipe(usemin({
             assetsDir: 'public',
             css: [ cssmin, 'concat' ],
-            js: [ sourcemaps.init(), 'concat', uglify, sourcemaps.write('.')]
+            js: [ sourcemaps.init(), 'concat', uglify({preserveComments: 'all'}), sourcemaps.write('.')]
         }))
         .pipe(gulp.dest('dist'));
 });
