@@ -29,11 +29,11 @@ gulp.task('default', function(){
 });
 
 gulp.task('usemin', function(){
-    return gulp.src('resources/views/main.php')
+    return gulp.src('resources/views/main.src.php')
         .pipe(usemin({
             assetsDir: 'public',
-            css: [ cssmin, 'concat' ],
-            js: [ sourcemaps.init(), 'concat', uglify({preserveComments: 'all'}), sourcemaps.write('.')]
+            css: ['concat', cssmin],
+            js: ['concat', uglify]
         }))
         .pipe(gulp.dest('dist'));
 });

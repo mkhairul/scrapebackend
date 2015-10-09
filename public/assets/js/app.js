@@ -26,7 +26,3 @@ var app = angular.module('jace', [
   'smoothScroll',
   'LocalStorageModule'
 ]);
-
-app.run(function($rootScope){
-    $rootScope.url = 'http://localhost:8000/ikeabackend/public';
-});
