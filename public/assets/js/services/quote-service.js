@@ -166,7 +166,7 @@ app.factory('quoteService',
         obj.total_price += accounting.unformat(obj.shipping_cost);
         
         // Lazee Fee
-        obj.lazeefee = accounting.toFixed(obj.total_price * 0.1, 2);
+        obj.lazeefee = accounting.toFixed(obj.total_price * 0.15, 2);
         
         obj.total_price += accounting.unformat(obj.lazeefee);
         

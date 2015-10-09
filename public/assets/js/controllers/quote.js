@@ -41,7 +41,7 @@ app.controller('QuoteController',
       var items = $scope.quoteItems;
       for(var i in items)
       {
-          item_text += sprintf('%d x %s: RM%s\n', items[i].quantity, items[i].name, (accounting.unformat(items[i].price)*items[i].quantity));
+          item_text += sprintf('%s x %s: RM%s\n', items[i].quantity, items[i].name, (accounting.unformat(items[i].price)*items[i].quantity));
           item_text += sprintf('Article No.: %s\n', items[i].article_id);
           if(items[i].note)
           {
