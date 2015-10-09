@@ -99,6 +99,7 @@
   <script charset="utf-8" src="bower_components/angular-strap/dist/angular-strap.js"></script>
   <script charset="utf-8" src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
   <script charset="utf-8" src="bower_components/accounting.js/accounting.min.js"></script>
+  <script charset="utf-8" src="bower_components/sprintf/dist/sprintf.min.js"></script>
 
   <!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
   <script charset="utf-8" src="assets/js/vendors/ng-file-upload-file-api.js"></script>
