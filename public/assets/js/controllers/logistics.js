@@ -2,7 +2,6 @@ app.controller('LogisticController',
  ['$scope', '$alert', '$rootScope', '$http',
   function($scope, $alert, $rootScope, $http){
   
-  
   $scope.couriers = [];    
   $scope.courier = {};
   $scope.newCourier = function(){
@@ -52,14 +51,12 @@ app.controller('LogisticController',
       if(data.action == 'new')
       {
           action = 'create';
-          post = { 'name':data.name, 'price_per_unit':data.price_per_unit, 
-                   'conditions':JSON.stringify(data.conditions) };
+          post = { 'name':data.name, 'conditions':JSON.stringify(data.conditions) };
       }
       else if(data.action == 'update')
       {
           action = 'update';
           post = { 'id': data.id, 'name':data.name, 
-                   'price_per_unit':data.price_per_unit, 
                    'conditions':JSON.stringify(data.conditions) }
       }
       $http.post($rootScope.url + 'logistic/' + action, post)
@@ -72,5 +69,17 @@ app.controller('LogisticController',
       })
       .error(function(data){
       });
+  }
+  
+  $scope.newPrice = function(item){
+      if(item.prices == undefined)
+      {
+          item.prices = [];
+      }
+      item.prices.push({});
+      console.log(item);
+  }
+  $scope.clearPrice = function(item, index){
+      item.prices.splice(index, 1);
   }
 }]);

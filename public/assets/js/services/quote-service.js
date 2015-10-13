@@ -5,7 +5,7 @@ app.factory('quoteService',
         'item': [],
         'weight': [],
         'total_weight': 0,
-        'country': 'Malaysia',
+        'country': 'Peninsular Malaysia',
         'price_per_unit': 0,
         'selected_courier': {},
         'shipping_cost': 0,
@@ -17,6 +17,11 @@ app.factory('quoteService',
       { name: 'Brunei', code: 'BRN' },
       { name: 'Vietnam', code: 'VNM' }
     ]
+    $http.get($rootScope.url + 'logistic/countries')
+    .success(function(data){
+        obj.countries = data;
+    })
+    
         
     if(localStorageService.get('quote'))
     {
@@ -124,33 +129,33 @@ app.factory('quoteService',
             }
             couriers = data;
             
-            obj.price_per_unit = 0;
+            obj.shipping_cost = 0;
             // Check which condition is right
             for(var i in couriers)
             {
                 for(var j in couriers[i].conditions)
                 {
-                    if(couriers[i].conditions[j].country == obj.country)
+                    if(couriers[i].conditions[j].location == obj.country)
                     {
                         if(eval(obj.total_weight + ' ' + 
                                 couriers[i].conditions[j].compare + ' ' + 
                                 couriers[i].conditions[j].weight))
                         {
+                            var x = obj.total_weight;
+                            var v = 0;
+                            
+                            for(var k in couriers[i].conditions[i].prices)
+                            {
+                                eval(couriers[i].conditions[i].prices[k].formula)
+                                obj.shipping_cost += v; 
+                            }
+                            
                             obj.price_per_unit = couriers[i].price_per_unit;
                             obj.selected_courier = couriers[i];
                             break;
                         }
                     }
                 }
-                if(obj.price_per_unit != 0)
-                {
-                    break;
-                }
-            }
-            
-            if(obj.price_per_unit)
-            {
-                obj.shipping_cost = obj.total_weight * obj.price_per_unit;
             }
             
             obj.calculateTotal();

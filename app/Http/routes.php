@@ -18,6 +18,8 @@ use App\User;
 
 use Illuminate\Http\Request;
 
+Route::get('/', function () { return view('login'); });
+Route::get('/main', ['middleware' => 'auth', function () { return view('main'); }]);
 
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -28,89 +30,17 @@ Route::get('auth/logout', function(){
 Route::get('auth/user', function(){
     return response()->json(Auth::user());
 });
-Route::get('users', function(){
-    $result = User::select('name', 'email')->get();
-    return response()->json($result);
-});
-Route::post('user/create', function(Request $request){
-    $user_exists = User::where('email', $request->input('email'))->first();
-    if($user_exists)
-    {
-        return response()->json(['message' => 'Email already exists'], 500);
-    }
-    
-    $user = new User;
-    $user->name = $request->input('name');
-    $user->email = $request->input('email');
-    $user->password = bcrypt($request->input('password'));
-    $user->save();
-    return response()->json(['status' => 'ok']);
-});
 
-Route::post('user/update', function(Request $request){
-    $id = $request->input('id');
-    $user = User::find($id);
-    if(!$user)
-    {
-        return response()->json(['message' => 'User does not exists'], 500);
-    }
-    $user->name = $request->input('name');
-    $user->email = $request->input('email');
-    $user->password = bcrypt($request->input('password'));
-    $user->save();
-    return response()->json(['status' => 'ok']);
-});
+Route::get('users', 'UserController@getAll');
+Route::post('user/create', 'UserController@create');
+Route::post('user/update', 'UserController@update');
 
 Route::post('logistic/create', 'LogisticController@createCourier');
 Route::post('logistic/update', 'LogisticController@updateCourier');
 Route::get('logistic', 'LogisticController@getAll');
+Route::get('logistic/countries', 'LogisticController@countries');
 
-Route::get('/', function () {
-    return view('login');
-});
-
-Route::match(['GET','POST'], '/product/availability', function(Request $request){
-    $article_id = ($request->input('id')) ? $request->input('id'):'30298792';
-    //$contents = file_get_contents('http://www.ikea.com/my/en/iows/catalog/availability/' . $article_id);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,'http://www.ikea.com/my/en/iows/catalog/availability/' . $article_id);
-    curl_setopt($ch, CURLOPT_FAILONERROR,1);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-    $contents = curl_exec($ch);
-    curl_close($ch);
-
-    $xml = simplexml_load_string($contents) or die("Error: Cannot create object");
-    return response()->json($xml->availability->localStore);
-});
-
-Route::get('/categories', function(){
-    $result = Category::get();
-    return response()->json($result);
-});
-
-Route::get('/main', ['middleware' => 'auth', function () {
-    return view('main');
-}]);
-
-Route::post('/product', function(Request $request){
-  $keyword = $request->input('keyword');
-
-  $result = Product::with('packages')->where('article_id', 'LIKE', $keyword)->orWhere('name', 'LIKE', $keyword)->get();
-  if(!$result){
-    return response()->json(['status' => 'error', 'message' => 'not found']);
-  }
-  
-  return response()->json($result);
-});
-
-Route::get('/product/{keyword}', function($keyword){
-
-  $result = Product::with('packages')->where('article_id', 'LIKE', $keyword)->orWhere('name', 'LIKE', $keyword)->get();
-  if(!$result){
-    return response()->json(['status' => 'error', 'message' => 'not found']);
-  }
-  
-  return response()->json($result);
-});
+Route::post('/product/availability', 'ProductController@availability');
+Route::get('/categories', 'ProductController@productCategories'); 
+Route::post('/product', 'ProductController@search');
+Route::get('/product/{keyword}', 'ProductController@searchGet');

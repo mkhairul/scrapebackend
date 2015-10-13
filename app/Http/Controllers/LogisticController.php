@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Validator;
 
 use App\Courier;
+use App\Location;
 
 class LogisticController extends Controller
 {
@@ -28,10 +29,28 @@ class LogisticController extends Controller
         $courier = new Courier;
         $courier->name = $request->input('name');
         $courier->conditions = $request->input('conditions');
-        $courier->price_per_unit = $request->input('price_per_unit');
         $courier->save();
         
+        $conditions = json_decode($courier->conditions, TRUE);
+        if(is_array($conditions)){
+            foreach($conditions as $cond)
+            {
+                $search_location = Location::where('name', 'LIKE', $cond['location'])->first();
+                if(!$search_location){
+                    $location = new Location;
+                    $location->name = $cond['location'];
+                    $location->save();
+                }
+            }
+        }
+        
         return response()->json(['status' => 'ok']);
+    }
+    
+    public function countries()
+    {
+        $result = Location::get();
+        return response()->json($result);
     }
     
     public function updateCourier(Request $request)
@@ -49,8 +68,20 @@ class LogisticController extends Controller
         $courier = Courier::find($request->input('id'));
         $courier->name = $request->input('name');
         $courier->conditions = $request->input('conditions');
-        $courier->price_per_unit = $request->input('price_per_unit');
         $courier->save();
+        
+        $conditions = json_decode($courier->conditions, TRUE);
+        if(is_array($conditions)){
+            foreach($conditions as $cond)
+            {
+                $search_location = Location::where('name', 'LIKE', $cond['location'])->first();
+                if(!$search_location){
+                    $location = new Location;
+                    $location->name = $cond['location'];
+                    $location->save();
+                }
+            }
+        }
         
         return response()->json(['status' => 'ok']);
     }

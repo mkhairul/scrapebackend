@@ -28,10 +28,6 @@
                       <input class="form-control" id="focusedInput" type="text" ng-model="courier.name" value="{{courier.name}}">
                       <label class="control-label" for="focusedInput">Name</label>
                     </div>
-                    <div class="form-group">
-                      <input class="form-control" id="focusedInput" type="text" ng-model="courier.price_per_unit" value="{{courier.price_per_unit}}">
-                      <label class="control-label" for="focusedInput">Price Per Unit</label>
-                    </div>
                     
                     <div class="form-group">
                       <button type="button" ng-click="newCondition()" class="btn btn-success">Add Condition</button>
@@ -44,44 +40,57 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="well white" ng-repeat="item in courier.conditions track by $index">
-                <form class="form-floating">
-                  <fieldset>
-                    <legend>Conditions {{$index+1}}</legend>                   
-                    <div class="form-group">
-                      <label class="control-label">Select a country</label>
-                      <select class="form-control" ng-model="item.country">
-                        <option ng-repeat="row in countries">{{row.name}}</option>
-                      </select>
-                    </div>
-                      
-                    <div class="form-group filled">
-                      <div class="input-group">
-                        <div class="row">
-                          <div class="col-md-4 filled">
-                            <select class="form-control" ng-model="item.compare">
-                                <option ng-repeat="row in compare">{{row}}</option>
-                            </select>
-                          </div>  
-                          <div class="col-md-4 filled">
-                            <label class="control-label">kg</label>
-                            <input type="text" class="form-control ng-valid" ng-model="item.weight" placeholder="weight in kg" >
-                          </div>
-                          <div class="col-md-4 filled">
-                            <label class="control-label">m&sup3;</label>
-                            <input type="text" class="form-control ng-valid" ng-model="item.cubic" placeholder="cubic meter (m&sup3;)" >
+              <div ng-repeat="item in courier.conditions track by $index">
+                <div class="well white">
+                    <form class="form-floating">
+                      <fieldset>
+                        <legend>Conditions {{$index+1}}</legend>                   
+                        <div class="form-group">
+                          <input class="form-control" id="focusedInput" type="text" ng-model="item.location" value="{{item.location}}">
+                          <label class="control-label" for="focusedInput">Location</label>
+                        </div>
+
+                        <div class="form-group filled">
+                          <div class="input-group">
+                            <div class="row">
+                              <div class="col-md-4 filled">
+                                <select class="form-control" ng-model="item.compare">
+                                    <option ng-repeat="row in compare">{{row}}</option>
+                                </select>
+                              </div>  
+                              <div class="col-md-4 filled">
+                                <label class="control-label">kg</label>
+                                <input type="text" class="form-control ng-valid" ng-model="item.weight" placeholder="weight in kg" >
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    
-                    
-                    <div class="form-group">
-                      <button type="button" class="btn btn-default" ng-click="clearCondition($index)">Cancel</button>
-                    </div>
-                  </fieldset>
 
-                </form>
+                        <div class="form-group">
+                          <button type="button" class="btn btn-default" ng-click="newPrice(item)">Add Price</button>
+                          <button type="button" class="btn btn-default" ng-click="clearCondition($index)">Cancel</button>
+                        </div>
+                      </fieldset>
+                    </form>
+                </div>
+                
+                <div class="well white" ng-repeat="price in item.prices track by $index">
+                    <form class="form-floating">
+                      <fieldset>
+                        <legend>Price {{$index+1}} for Condition {{$parent.$index+1}}</legend>                   
+                        <div class="form-group">
+                          <input class="form-control" id="focusedInput" type="text" ng-model="price.formula" value="{{price.formula}}" placeholder="">
+                          <span class="help-block">x is product weight. v is the return value for the formula. e.g. v  = v + 5</span>
+                          <label class="control-label" for="focusedInput">Formula</label>
+                        </div>
+
+                        <div class="form-group">
+                          <button type="button" class="btn btn-default" ng-click="clearPrice(item, $index2)">Cancel</button>
+                        </div>
+                      </fieldset>
+                    </form>
+                </div>
+                  
               </div>
             </div>
         </div>
@@ -103,7 +112,6 @@
                     <tr>
                       <th>ID</th>
                       <th>Name</th>
-                      <th>Price Per Unit</th>
                       <th>Conditions</th>
                     </tr>
                     </thead>
@@ -112,7 +120,6 @@
                     <tr ng-repeat="(key, item) in couriers | filter:keyword">
                       <td>{{ item.id }}</td>
                       <td><a ng-click="selectCourier(item)">{{ item.name }}</a></td>
-                      <td>{{item.price_per_unit}}</td>
                       <td>{{ item.conditions.length }}</td>
                     </tr>
                     </tbody>
