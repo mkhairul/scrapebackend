@@ -8,6 +8,7 @@ var mainBowerFiles = require('gulp-main-bower-files');
 var cssmin = require('gulp-cssmin');
 var usemin = require('gulp-usemin');
 var sourcemaps = require('gulp-sourcemaps');
+var clean = require('gulp-clean');
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -25,7 +26,8 @@ elixir(function(mix) {
 */
 
 gulp.task('default', function(){
-    runSequence('compress-app-js', 'compress-vendor-js', 'compress-app-css', 'compress-vendor-css');
+    //runSequence('compress-app-js', 'compress-vendor-js', 'compress-app-css', 'compress-vendor-css');
+    runSequence('usemin', 'copy', 'cleanup');
 });
 
 gulp.task('usemin', function(){
@@ -38,45 +40,12 @@ gulp.task('usemin', function(){
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('compress-app-js', function (){
-    return gulp.src(
-        ['public/assets/js/app.js', 'public/assets/js/**/*.js', '!public/assets/js/**/*.min.js'])
-        .pipe(concat('app.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('public/assets/js'));
+gulp.task('copy', function(){
+    return gulp.src('dist/**/*.js')
+    .pipe(gulp.dest('public'));
 });
 
-gulp.task('compress-app-css', function (){
-    return gulp.src(['public/assets/css/**/*.css', '!public/assets/css/**/*.min.css'])
-        .pipe(concat('styles.min.css'))
-        .pipe(cssmin())
-        .pipe(gulp.dest('public/assets/css'));
-});
-
-gulp.task('compress-vendor-js', function (){
-    return gulp.src([
-        'bower_components/jquery/dist/jquery.min.js', 
-        'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js', 
-        ])
-        .pipe(concat('app.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('public/assets/js'));
-    
-    //var jsFilter = gulpFilter('**/*.js');
-    //return gulp.src('./bower.json')
-    //    .pipe(mainBowerFiles())
-    //    .pipe(jsFilter)
-    //    .pipe(concat('vendors.min.js'))
-    //    .pipe(uglify())
-    //    .pipe(gulp.dest('public/assets/js'));
-});
-
-gulp.task('compress-vendor-css', function (){
-    var cssFilter = gulpFilter('**/*.css');
-    return gulp.src('./bower.json')
-        .pipe(mainBowerFiles())
-        .pipe(cssFilter)
-        .pipe(concat('vendors.min.css'))
-        .pipe(cssmin())
-        .pipe(gulp.dest('public/assets/css'));
+gulp.task('cleanup', function(){
+    return gulp.src('dist', {read:false})
+    .pipe(clean());
 });
