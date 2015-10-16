@@ -57,7 +57,7 @@ app.config(['$routeProvider', function($routeProvider) {
 }])
 
 // set constants
-.run(['$rootScope', 'APP', function ($rootScope, APP) {
+.run(['$rootScope', 'APP', '$window', function ($rootScope, APP, $window) {
   $rootScope.APP = APP;
   $rootScope.url = $window.location.origin + '/';
 }]);
