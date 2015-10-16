@@ -94,7 +94,7 @@ app.controller('MainController',
   $scope.product = [];
   $scope.searchProduct = function(val)
   {
-      $http.get($rootScope.url + '/product/' + val).
+      $http.post($rootScope.url + '/product/', {'keyword': val}).
       success(function(data){
           if(data.status == 'error')
           {
