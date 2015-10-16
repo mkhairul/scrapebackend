@@ -58,60 +58,7 @@
 
   <div class="alert-container-top-right"></div>
   <script src="assets/js/vendors.min.js"></script>
-  <script charset="utf-8" src="assets/js/vendors/angular-placeholders.js"></script>
-  <script charset="utf-8" src="assets/js/vendors/side-nav.js"></script>
-  <script charset="utf-8" src="assets/js/vendors/ripples.js"></script>
-  <script charset="utf-8" src="assets/js/vendors/fsm-sticky-header.js"></script>
-  <script charset="utf-8" src="assets/js/vendors/angular-smooth-scroll.js"></script>
-  <script charset="utf-8" src="assets/js/colors.js"></script>
-
-  <script charset="utf-8" src="assets/js/app.js"></script>
-  <script charset="utf-8" src="assets/js/app.constants.js"></script>
-  <script charset="utf-8" src="assets/js/app.config.js"></script>
-  <script charset="utf-8" src="assets/js/app.filters.js"></script>
-  <script charset="utf-8" src="assets/js/app.demo.js"></script><!--@grep dist-->
-
-  <script charset="utf-8" src="assets/js/directives/formcontrol.js"></script>
-  <script charset="utf-8" src="assets/js/directives/navbar-hover.js"></script>
-  <script charset="utf-8" src="assets/js/directives/navbar-search.js"></script>
-  <script charset="utf-8" src="assets/js/directives/navbar-toggle.js"></script>
-  <script charset="utf-8" src="assets/js/directives/noui-slider.js"></script>
-  <script charset="utf-8" src="assets/js/directives/todo-widget.js"></script>
-  <script charset="utf-8" src="assets/js/directives/menu-link.js"></script>
-  <script charset="utf-8" src="assets/js/directives/menu-toggle.js"></script>
-  <script charset="utf-8" src="assets/js/directives/vectormap.js"></script>
-  <script charset="utf-8" src="assets/js/directives/autofocus.js"></script>
-  <script charset="utf-8" src="assets/js/directives/card-flip.js"></script>
-  <script charset="utf-8" src="assets/js/directives/scroll-spy.js"></script>
-  <script charset="utf-8" src="assets/js/directives/init-ripples.js"></script>
-  <script charset="utf-8" src="assets/js/directives/keypress.js"></script>
-
-  <script charset="utf-8" src="assets/js/services/color-service.js"></script>
-  <script charset="utf-8" src="assets/js/services/todo-service.js"></script>
-  <script charset="utf-8" src="assets/js/services/quote-service.js"></script>
-
-  <script charset="utf-8" src="assets/js/controllers/main.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/dashboard.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/charts.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/colors.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/buttons.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/lists.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/maps/full-map.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/maps/basic-map.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/maps/clickable-map.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/maps/searchable-map.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/maps/zoomable-map.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/maps/vector-map.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/forms.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/upload.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/tables/basic.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/tables/data.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/apps/crud.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/apps/todo.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/category.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/logistics.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/quote.js"></script>
-  <script charset="utf-8" src="assets/js/controllers/user.js"></script>
+  <script src="assets/js/app.min.js"></script>
 </body>
 </html>
 
