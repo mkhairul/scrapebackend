@@ -96,7 +96,22 @@ class PackageTableSeeder extends Seeder
                               'price'      => $details['price']
                              ]);
                 
+                // Save price history
+                DB::table('misc_data')->insert([
+                        'parent_id' => $row['product_id'],
+                        'type'      => 'price',
+                        'name'      => 'price',
+                        'data'      => $details['price']
+                    ]);
+                
                 // Insert the product image
+                $misc_exists = DB::table('misc_data')->where('parent_id', $row['product_id'])->first();
+                if($misc_exists)
+                {
+                    DB::table('misc_data')->where('parent_id', $row['product_id'])
+                                          ->where('type', 'product')
+                                          ->delete();
+                }
                 DB::table('misc_data')->insert([
                         'parent_id' => $row['product_id'],
                         'type'      => 'product',
@@ -107,6 +122,15 @@ class PackageTableSeeder extends Seeder
 
                 foreach($details['package'] as $package)
                 {
+                    // Check if other package exists before this
+                    $exists = DB::table('package')->where('product_id', $row['product_id'])
+                                        ->where('history', '<>', 1)
+                                        ->first();
+                    if($exists){
+                        DB::table('package')->where('product_id', $row['product_id'])
+                                            ->update(['history' => 1]);
+                    }
+                    
                     DB::table('package')->insert([
                         'product_id'    => $row['product_id'],
                         'article_id'    => $package['article_id'],

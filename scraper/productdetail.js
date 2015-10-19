@@ -9,12 +9,23 @@ page.open(url, function(status){
             return {'status':'error'};
         }
         
+        var require_assembly = 0;
+        if(document.querySelector('#requiresAssembly .subTxt') === null)
+        {
+            require_assembly = 0;
+        }
+        else
+        {
+            require_assembly = 1;
+        }
+        
         var detail = {
             'name'      : document.querySelector('#cartInfotd #productNameProdInfo').textContent.trim(),
             'desc'      : document.querySelector('#cartInfotd #productTypeProdInfo').textContent.trim(),
             'price'     : document.querySelector('#cartInfotd #priceProdInfo').textContent.trim(),
             'article_id': document.querySelector('#itemNumber').textContent.trim().match(/(\d+)\.?(\d+)\.?(\d+)/g)[0].split('.').join(''),
-            'main_img'  : document.querySelector('#productImg').src.trim()
+            'main_img'  : document.querySelector('#productImg').src.trim(),
+            'assembly'  : require_assembly
         };
         // Check total packages
         detail['total_package'] = function(){
