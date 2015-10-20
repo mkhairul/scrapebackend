@@ -48,6 +48,7 @@ page.open(url, function(status){
         detail['package'] = [];
         if(detail['total_package'] === 1)
         {
+            detail['debug'] = 'total package = 1 ?';
             var haveWidth = 1;
             var haveHeight = 1;
             var haveLength = 1;
@@ -83,8 +84,10 @@ page.open(url, function(status){
             );
         }
         
-        if(detail['total_package'] === 2)
+        if(detail['total_package'] > 1)
         {
+            detail['debug'] = 'total package > 1 ?;';
+            
             // Have to click the link first.
             var link_package = document.querySelector('#morePackages');
             var event = document.createEvent('MouseEvents');
@@ -92,12 +95,26 @@ page.open(url, function(status){
             link_package.dispatchEvent(event);
             
             var packages = document.querySelectorAll('#dynamicRows > div.rowContainerPackageNew');
-            for(var i=1; i<packages.length; i++) // skip the first row headers
+            var index_start = 1;
+            // Check if the total packages is the same
+            // Example: http://www.ikea.com/my/en/catalog/products/60250166/
+            if((packages.length - 1) != detail['total_package'])
             {
+                var article_id = packages[1].querySelector('.colArticleNew').textContent.trim().split('.').join('');
+                // Get the article ID.
+                var packages = document.querySelectorAll('#dynamicRows > div.rowContainerPackageNew .colCollectedNew');
+                var index_start = 0;
+            }
+            
+            for(var i=index_start; i<packages.length; i++) // skip the first row headers
+            {
+                detail['debug'] += packages.length;
                 var haveWidth = 1;
                 var haveHeight = 1;
                 var haveLength = 1;
                 var haveDiameter = 1;
+                var haveArticleID = 1;
+                var haveWeight = 1;
                 // some products doesnt have width and height, e.g. GLANSVIDE (mattress)
                 if(packages[i].querySelector('.colWidthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
                 {
@@ -115,15 +132,23 @@ page.open(url, function(status){
                 {
                     haveDiameter = 0;
                 }
+                if(packages[i].querySelector('.colWeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
+                {
+                    haveWeight = 0;
+                }
+                if(packages[i].querySelector('.colArticleNew') === null)
+                {
+                    haveArticleID = 0;
+                }
                 
                 detail['package'].push(
                     {
                         'total'     : packages[i].querySelector('.colPackNew').textContent.trim(),
-                        'article_id': packages[i].querySelector('.colArticleNew').textContent.trim().split('.').join(''),
+                        'article_id': (article_id) ? article_id:((haveArticleID === 1) ? packages[i].querySelector('.colArticleNew').textContent.trim().split('.').join(''):''),
                         'width'     : (haveWidth === 1) ? packages[i].querySelector('.colWidthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
                         'height'    : (haveHeight === 1) ? packages[i].querySelector('.colHeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
                         'length'    : (haveLength === 1) ? packages[i].querySelector('.colLengthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
-                        'weight'    : packages[i].querySelector('.colWeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0],
+                        'weight'    : (haveWeight === 1) ? packages[i].querySelector('.colWeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
                         'diameter'  : (haveDiameter === 1) ? packages[i].querySelector('.colDiameterNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:''
                     }
                 );
