@@ -163,7 +163,7 @@ class PackageTableSeeder extends Seeder
              - wait(5);
          - updateQueue();     
          */
-        $products = DB::table('product')->where('article_id', '')->get();
+        $products = DB::table('product')->where('article_id', '')->orderByRaw("RAND()")->get();
         foreach ($products as $product)
         { 
             $this->addScraper($product->id, $product->url);
