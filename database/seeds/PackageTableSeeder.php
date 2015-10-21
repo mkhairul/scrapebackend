@@ -37,7 +37,7 @@ class PackageTableSeeder extends Seeder
     
     public function updateProcess()
     {
-        $ps_list = explode(PHP_EOL, trim(shell_exec('ps ef | grep phantomjs')));
+        $ps_list = explode(PHP_EOL, trim(shell_exec('ps -ef | grep phantomjs')));
         foreach($ps_list as $process)
         {
             $ps_segment = preg_split('/\s+/', $process);
