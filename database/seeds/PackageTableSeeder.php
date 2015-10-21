@@ -41,6 +41,7 @@ class PackageTableSeeder extends Seeder
             $ps_list = explode(PHP_EOL, trim(shell_exec('ps -ef | grep phantomjs')));
         }catch(ErrorException $e){
             $this->command->info($e->getMessage());
+            return false;
         }
         foreach($ps_list as $process)
         {
