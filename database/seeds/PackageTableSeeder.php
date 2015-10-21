@@ -9,7 +9,7 @@ class PackageTableSeeder extends Seeder
     protected $queue = [];
     protected $scraper_dir;
     protected $scraper_data_dir;
-    protected $queue_limit = 6;
+    protected $queue_limit = 5;
     protected $sleep = 2;
     protected $process_limit = 5;
     
@@ -37,7 +37,7 @@ class PackageTableSeeder extends Seeder
     
     public function updateProcess()
     {
-        $ps_list = explode(PHP_EOL, trim(shell_exec('ps -ef | grep phantomjs')));
+        $ps_list = explode(PHP_EOL, trim(shell_exec('ps ef | grep phantomjs')));
         foreach($ps_list as $process)
         {
             $ps_segment = preg_split('/\s+/', $process);
