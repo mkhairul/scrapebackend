@@ -41,11 +41,14 @@ class PackageTableSeeder extends Seeder
         foreach($ps_list as $process)
         {
             $ps_segment = preg_split('/\s+/', $process);
-            $elapsed = explode(':', $ps_segment[6]);
-            if($elapsed[1] >= $this->process_limit)
+            if(count($ps_segment) >= 6)
             {
-                $this->command->info('killing process');
-                shell_exec('kill -9 ' . $ps_segment[1]);
+                $elapsed = explode(':', $ps_segment[6]);
+                if($elapsed[1] >= $this->process_limit)
+                {
+                    $this->command->info('killing process');
+                    shell_exec('kill -9 ' . $ps_segment[1]);
+                }
             }
         }
     }
