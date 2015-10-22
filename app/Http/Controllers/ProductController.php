@@ -43,7 +43,7 @@ class ProductController extends Controller
                             ->where('article_id', 'LIKE', $keyword)
                             ->orWhere('name', 'LIKE', $keyword)
                             ->get();
-        if(!$result){
+        if(count($result) == 0){
             return response()->json(['status' => 'error', 'message' => 'not found'], 500);
         }
         return response()->json($result);

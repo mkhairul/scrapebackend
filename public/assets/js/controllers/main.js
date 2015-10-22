@@ -115,6 +115,7 @@ app.controller('MainController',
           }
       })
       .error(function(data){
+          $scope.showError = true;
       });
       console.log('enter!');
   }
