@@ -15,6 +15,7 @@ class TestShellExec extends Seeder
         {
             try{
                 $ps_list = explode(PHP_EOL, trim(shell_exec('/bin/ps -ef | grep phantomjs')));
+                $this->command->info(print_r($ps_list, true));
             }catch(ErrorException $e){
                 $this->command->info($e->getMessage());
                 return false;
