@@ -20,6 +20,9 @@ class ProductListSeeder extends Seeder
             
             foreach($products as $index => $product)
             {
+                // Check if product exists
+                // If it exists, just add another category to it
+                
                 DB::table('product')->insert([
                     'category_id' => $cat->id,
                     'name'        => $product['name'],

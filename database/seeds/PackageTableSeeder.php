@@ -102,7 +102,8 @@ class PackageTableSeeder extends Seeder
                 DB::table('product')
                     ->where('id', $row['product_id'])
                     ->update(['article_id' => $details['article_id'],
-                              'price'      => $details['price']
+                              'price'      => $details['price'],
+                              'assembly'   => $details['assembly']
                              ]);
                 
                 // Save price history
