@@ -9,7 +9,7 @@ class PackageTableSeeder extends Seeder
     protected $queue = [];
     protected $scraper_dir;
     protected $scraper_data_dir;
-    protected $queue_limit = 4;
+    protected $queue_limit = 3;
     protected $sleep = 2;
     protected $process_limit = 4;
     protected $total_records = 0;
