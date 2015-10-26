@@ -102,13 +102,12 @@ page.open(url, function(status){
             {
                 var article_id = packages[1].querySelector('.colArticleNew').textContent.trim().split('.').join('');
                 // Get the article ID.
-                var packages = document.querySelectorAll('#dynamicRows > div.rowContainerPackageNew .colCollectedNew');
+                var packages = document.querySelectorAll('#dynamicRows > div.rowContainerPackageNew');
                 var index_start = 0;
             }
             
             for(var i=index_start; i<packages.length; i++) // skip the first row headers
             {
-                detail['debug'] += packages.length;
                 var haveWidth = 1;
                 var haveHeight = 1;
                 var haveLength = 1;
@@ -139,12 +138,17 @@ page.open(url, function(status){
                 if(packages[i].querySelector('.colArticleNew') === null)
                 {
                     haveArticleID = 0;
+                    detail['debug'] += 'no article,';
+                }
+                else
+                {
+                    detail['debug'] += 'have article,';
                 }
                 
                 detail['package'].push(
                     {
                         'total'     : packages[i].querySelector('.colPackNew').textContent.trim(),
-                        'article_id': (article_id) ? article_id:((haveArticleID === 1) ? packages[i].querySelector('.colArticleNew').textContent.trim().split('.').join(''):''),
+                        'article_id': (haveArticleID === 1) ? packages[i].querySelector('.colArticleNew').textContent.trim().split('.').join(''):((article_id) ? article_id:''),
                         'width'     : (haveWidth === 1) ? packages[i].querySelector('.colWidthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
                         'height'    : (haveHeight === 1) ? packages[i].querySelector('.colHeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
                         'length'    : (haveLength === 1) ? packages[i].querySelector('.colLengthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',

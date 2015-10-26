@@ -12,6 +12,7 @@ class PackageTableSeeder extends Seeder
     protected $queue_limit = 5;
     protected $sleep = 2;
     protected $process_limit = 5;
+    protected $total_records = 0;
     
     /**
      * Run the database seeds.
@@ -23,12 +24,12 @@ class PackageTableSeeder extends Seeder
         return count($this->queue);
     }
     
-    public function addScraper($id, $url)
+    public function addScraper($id, $url, $current=0)
     {
         $tmp = DB::table('product')->where('id', $id)->where('article_id', '')->first();
         if(!$tmp){ $this->command->info('Skipping ID: ' . $id); continue; }
         
-        $this->command->info('Spawning scraper for ' . $id);
+        $this->command->info('Spawning scraper for ' . $id . ', ' . $current . '/' . $this->total_records);
         
         $this->queue[] = ['product_id'  => $id, 
                           'filename'    => $id,
@@ -172,14 +173,17 @@ class PackageTableSeeder extends Seeder
          - updateQueue();     
          */
         $products = DB::table('product')->where('article_id', '')->orderByRaw("RAND()")->get();
+        $this->total_records = count($products);
+        $current = 1;
         foreach ($products as $product)
         { 
-            $this->addScraper($product->id, $product->url);
+            $this->addScraper($product->id, $product->url, $current);
             while($this->queueTotal() >= $this->queue_limit)
             {
                 $this->updateQueue();
                 sleep($this->sleep);
             }
+            $current += 1;
         }
         
         // Finish off any other processes.
