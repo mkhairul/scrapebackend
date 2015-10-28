@@ -39,7 +39,7 @@ app.controller('UserController',
      .success(function(data){
          if(user_data.action == 'new')
          {
-            console.log('push?');
+            $scope.user.id = data.id;
             $scope.users.push($scope.user);
          }
          delete $scope.user.action;
@@ -49,6 +49,25 @@ app.controller('UserController',
          $scope.error = []
          $scope.error.message = data.message;
      });
+ }
+ 
+ $scope.confirmDelete = function(confirm)
+  {
+      if(confirm === true)
+      {
+          $http.post($rootScope.url + 'user/remove', {id:$scope.setDeleteUser.item.email})
+          .success(function(data){
+              $scope.users.splice($scope.setDeleteUser.index, 1);
+          })
+          .error(function(data){
+              console.log(data);
+          })
+      }
+  }
+ 
+ $scope.setDeleteUser = function(item, index){
+     $scope.setDeleteUser.item = item;
+     $scope.setDeleteUser.index = index;
  }
       
 }]);

@@ -101,61 +101,65 @@ page.open(url, function(status){
             if((packages.length - 1) != detail['total_package'])
             {
                 var article_id = packages[1].querySelector('.colArticleNew').textContent.trim().split('.').join('');
-                // Get the article ID.
-                var packages = document.querySelectorAll('#dynamicRows > div.rowContainerPackageNew');
-                var index_start = 0;
+                if((typeof parseInt(article_id)) === 'number')
+                {
+                    // Get the article ID.
+                    var packages = document.querySelectorAll('#dynamicRows > div.rowContainerPackageNew');
+                    var index_start = 1;
+                }
             }
             
             for(var i=index_start; i<packages.length; i++) // skip the first row headers
             {
+                var subpackages = packages[i].querySelectorAll('.colCollectedNew');
                 var haveWidth = 1;
                 var haveHeight = 1;
                 var haveLength = 1;
                 var haveDiameter = 1;
                 var haveArticleID = 1;
                 var haveWeight = 1;
-                // some products doesnt have width and height, e.g. GLANSVIDE (mattress)
-                if(packages[i].querySelector('.colWidthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
-                {
-                    haveWidth = 0;
-                }
-                if(packages[i].querySelector('.colHeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
-                {
-                    haveHeight = 0;
-                }
-                if(packages[i].querySelector('.colLengthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
-                {
-                    haveLength = 0;
-                }
-                if(packages[i].querySelector('.colDiameterNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
-                {
-                    haveDiameter = 0;
-                }
-                if(packages[i].querySelector('.colWeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
-                {
-                    haveWeight = 0;
-                }
-                if(packages[i].querySelector('.colArticleNew') === null)
-                {
-                    haveArticleID = 0;
-                    detail['debug'] += 'no article,';
-                }
-                else
-                {
-                    detail['debug'] += 'have article,';
-                }
                 
-                detail['package'].push(
+                for(var j = 0; j<subpackages.length; j++)
+                {
+                    // some products doesnt have width and height, e.g. GLANSVIDE (mattress)
+                    if(subpackages[j].querySelector('.colWidthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
                     {
-                        'total'     : packages[i].querySelector('.colPackNew').textContent.trim(),
-                        'article_id': (haveArticleID === 1) ? packages[i].querySelector('.colArticleNew').textContent.trim().split('.').join(''):((article_id) ? article_id:''),
-                        'width'     : (haveWidth === 1) ? packages[i].querySelector('.colWidthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
-                        'height'    : (haveHeight === 1) ? packages[i].querySelector('.colHeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
-                        'length'    : (haveLength === 1) ? packages[i].querySelector('.colLengthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
-                        'weight'    : (haveWeight === 1) ? packages[i].querySelector('.colWeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
-                        'diameter'  : (haveDiameter === 1) ? packages[i].querySelector('.colDiameterNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:''
+                        haveWidth = 0;
                     }
-                );
+                    if(subpackages[j].querySelector('.colHeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
+                    {
+                        haveHeight = 0;
+                    }
+                    if(subpackages[j].querySelector('.colLengthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
+                    {
+                        haveLength = 0;
+                    }
+                    if(subpackages[j].querySelector('.colDiameterNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
+                    {
+                        haveDiameter = 0;
+                    }
+                    if(subpackages[j].querySelector('.colWeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g) === null)
+                    {
+                        haveWeight = 0;
+                    }
+                    if(packages[i].querySelector('.colArticleNew') === null)
+                    {
+                        haveArticleID = 0;
+
+                    }
+
+                    detail['package'].push(
+                        {
+                            'total'     : subpackages[j].querySelector('.colPackNew').textContent.trim(),
+                            'article_id': (haveArticleID === 1) ? packages[i].querySelector('.colArticleNew').textContent.trim().split('.').join(''):((article_id) ? article_id:''),
+                            'width'     : (haveWidth === 1) ? subpackages[j].querySelector('.colWidthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
+                            'height'    : (haveHeight === 1) ? subpackages[j].querySelector('.colHeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
+                            'length'    : (haveLength === 1) ? subpackages[j].querySelector('.colLengthNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
+                            'weight'    : (haveWeight === 1) ? subpackages[j].querySelector('.colWeightNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:'',
+                            'diameter'  : (haveDiameter === 1) ? subpackages[j].querySelector('.colDiameterNew').textContent.trim().match(/[-+]?[0-9]*\.?[0-9]+/g)[0]:''
+                        }
+                    );
+                }
             }
         }
                                   

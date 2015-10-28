@@ -34,10 +34,12 @@ Route::get('auth/user', function(){
 Route::get('users', 'UserController@getAll');
 Route::post('user/create', 'UserController@create');
 Route::post('user/update', 'UserController@update');
+Route::post('user/remove', ['middleware' => 'auth', 'uses' => 'UserController@remove']);
 
 Route::post('logistic/create', 'LogisticController@createCourier');
 Route::post('logistic/update', 'LogisticController@updateCourier');
 Route::get('logistic', 'LogisticController@getAll');
+Route::post('logistic/remove', ['middleware' => 'auth', 'uses' => 'LogisticController@remove']);
 Route::get('logistic/countries', 'LogisticController@countries');
 
 Route::post('/product/availability', 'ProductController@availability');

@@ -65,6 +65,7 @@ app.controller('LogisticController',
           $scope.showError = false;
           if(action == 'create')
           {
+            $scope.courier.id = data.id;
             $scope.couriers.push($scope.courier);
           }
           $scope.courier = {};
@@ -73,6 +74,26 @@ app.controller('LogisticController',
           $scope.showError = true;
           $scope.errorMessage = data.message;
       });
+  }
+  
+  $scope.confirmDelete = function(confirm)
+  {
+      if(confirm === true)
+      {
+          $http.post($rootScope.url + 'logistic/remove', {id:$scope.setDeleteCourier.item.id})
+          .success(function(data){
+              $scope.couriers.splice($scope.setDeleteCourier.index, 1);
+          })
+          .error(function(data){
+              console.log(data);
+          })
+      }
+  }
+  
+  $scope.setDeleteCourier = function(item, index){
+      $scope.setDeleteCourier.item = item;
+      $scope.setDeleteCourier.index = index;
+      
   }
   
   $scope.newPrice = function(item){

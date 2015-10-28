@@ -74,14 +74,24 @@
                       <th>ID</th>
                       <th>Name</th>
                       <th>Email</th>
+                      <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
 
-                    <tr ng-repeat="(key, item) in users | filter:keyword">
+                    <tr ng-repeat="(key, item) in users track by $index | filter:keyword">
                       <td>{{ item.id }}</td>
                       <td><a ng-click="selectUser(item)">{{ item.name }}</a></td>
                       <td>{{ item.email }}</td>
+                      <td>
+                          <button type="button" 
+                                  title="Delete"
+                                  data-animation="am-fade-and-slide-top" 
+                                  data-template="assets/tpl/partials/confirm_delete.html" 
+                                  bs-modal="modal"
+                                  class="btn btn-xs btn-round btn-danger" 
+                                  ng-click="setDeleteUser(item, $index)"><span class="md md-delete"></span><div class="ripple-wrapper"></div></button>
+                      </td>
                     </tr>
                     </tbody>
                   </table>

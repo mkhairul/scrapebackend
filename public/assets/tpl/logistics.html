@@ -123,6 +123,7 @@
                       <th>ID</th>
                       <th>Name</th>
                       <th>Conditions</th>
+                      <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -131,6 +132,15 @@
                       <td>{{ $index+1 }}</td>
                       <td><a ng-click="selectCourier(item)">{{ item.name }}</a></td>
                       <td>{{ item.conditions.length }}</td>
+                      <td>
+                          <button type="button" 
+                                  title="Delete"
+                                  data-animation="am-fade-and-slide-top" 
+                                  data-template="assets/tpl/partials/confirm_delete.html" 
+                                  bs-modal="modal"
+                                  class="btn btn-xs btn-round btn-danger" 
+                                  ng-click="setDeleteCourier(item, $index)"><span class="md md-delete"></span><div class="ripple-wrapper"></div></button>
+                      </td>
                     </tr>
                     </tbody>
                   </table>

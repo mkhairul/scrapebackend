@@ -37,6 +37,7 @@ app.controller('MainController',
     intro.show();
   };
 
+  /*
   var intro = $alert({
     title: 'Hi there!',
     content: 'Testing.',
@@ -49,7 +50,7 @@ app.controller('MainController',
   $timeout(function(){
       intro.show();
   }, 1750);
-       
+  */   
       
   // adding demo data
   var data = [];

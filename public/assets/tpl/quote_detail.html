@@ -47,7 +47,7 @@
                       <tbody>
                           <tr ng-repeat="item in quoteItems track by $index">
                             <td>{{$index+1}}</td>
-                            <td>{{item.article_id}} - {{item.name}}
+                            <td><a href ng-click="openURL(item.url)">{{item.article_id}} - {{item.name}}</a>
                                 <p ng-if="item.note">
                                     <a ng-click="clearNote($index)"><i class="md md-clear"></i></a>
                                     {{item.note.val}}
@@ -58,7 +58,8 @@
                             <td>{{accounting.unformat(item.price)*item.quantity}}</td>
                             <td>
                                 <a ng-click="addNote(item, $index)" class="btn btn-default"><i class="md md-speaker-notes"></i></a>
-                                <a ng-click="quouteService($index)" class="btn btn-default"><i class="md md-delete red-text"></i></a>
+                                <a ng-click="quoteService.remove($index)" class="btn btn-default"><i class="md md-delete red-text"></i></a>
+                                <a ng-if="item.assembly == 1" title="Assembly Required!" ng-click="displayAssembly = true" class="btn btn-default"><i class="md md-new-releases"></i></a>                                
                             </td>
                           </tr>
                           

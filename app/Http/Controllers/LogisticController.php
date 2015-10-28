@@ -44,7 +44,7 @@ class LogisticController extends Controller
             }
         }
         
-        return response()->json(['status' => 'ok']);
+        return response()->json(['status' => 'ok', 'id' => $courier->id]);
     }
     
     public function countries()
@@ -83,6 +83,12 @@ class LogisticController extends Controller
             }
         }
         
+        return response()->json(['status' => 'ok']);
+    }
+    
+    public function remove(Request $request)
+    {
+        $result = Courier::find($request->input('id'))->delete();
         return response()->json(['status' => 'ok']);
     }
     

@@ -31,7 +31,7 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->save();
-        return response()->json(['status' => 'ok']);
+        return response()->json(['status' => 'ok', 'id' => $user->id]);
     }
     
     public function update(Request $request){
@@ -45,6 +45,11 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->save();
+        return response()->json(['status' => 'ok']);
+    }
+    
+    public function remove(Request $request){
+        $result = User::where('email', $request->input('email'))->delete();
         return response()->json(['status' => 'ok']);
     }
 }
