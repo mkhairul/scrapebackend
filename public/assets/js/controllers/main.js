@@ -40,7 +40,7 @@ app.controller('MainController',
   var intro = $alert({
     title: 'Hi there!',
     content: 'Testing.',
-    placement: 'top-right',
+    placement: 'top',
     type: 'theme',
     container: '.alert-container-top-right',
     show: false,

@@ -23,7 +23,17 @@
 
                   <fieldset>
                     <legend>{{courier.action.charAt(0).toUpperCase() + courier.action.slice(1)}} Courier</legend>
-                    <span class="help-block mw400">create new courier</span>                    
+                    <span class="help-block mw400">create new courier</span>
+                    <div class="row" ng-show="showError">
+                        <div class="col-md-12">
+                          <div class="bs-component">
+                            <div class="alert alert-dismissible alert-danger">
+                              <button type="button" class="close" data-dismiss="alert">×</button>
+                              <p ng-repeat="(key, message) in errorMessage">{{message[0]}}</p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                       <input class="form-control" id="focusedInput" type="text" ng-model="courier.name" value="{{courier.name}}">
                       <label class="control-label" for="focusedInput">Name</label>
@@ -117,8 +127,8 @@
                     </thead>
                     <tbody>
 
-                    <tr ng-repeat="(key, item) in couriers | filter:keyword">
-                      <td>{{ item.id }}</td>
+                    <tr ng-repeat="(key, item) in couriers track by $index | filter:keyword">
+                      <td>{{ $index+1 }}</td>
                       <td><a ng-click="selectCourier(item)">{{ item.name }}</a></td>
                       <td>{{ item.conditions.length }}</td>
                     </tr>

@@ -59,15 +59,19 @@ app.controller('LogisticController',
           post = { 'id': data.id, 'name':data.name, 
                    'conditions':JSON.stringify(data.conditions) }
       }
+      
       $http.post($rootScope.url + 'logistic/' + action, post)
       .success(function(data){
-          if(data.action == 'new')
+          $scope.showError = false;
+          if(action == 'create')
           {
             $scope.couriers.push($scope.courier);
           }
           $scope.courier = {};
       })
       .error(function(data){
+          $scope.showError = true;
+          $scope.errorMessage = data.message;
       });
   }
   
