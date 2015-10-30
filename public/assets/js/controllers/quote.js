@@ -4,9 +4,43 @@ app.controller('QuoteController',
   $scope.quoteService = quoteService;
   $scope.quoteItems = quoteService.getItems();
   $scope.accounting = accounting;
+      
+  $scope.closeAll = function(){
+      $scope.set_assembly = false;
+      $scope.add_note = false;
+  }
+      
+  $scope.displayAssembly = function(item, no){
+      $scope.closeAll();
+      if(item.assembly_detail)
+      {
+          $scope.assembly_detail = item.assembly_detail;
+      }
+      else
+      {
+          $scope.assembly_detail = {};
+      }
+      $scope.assembly_detail.id = no;
+      $scope.set_assembly = true;
+      
+  }
+  
+  $scope.hideAssembly = function(){
+      $scope.set_assembly = false;
+  }
+  
+  $scope.saveAssembly = function(){
+      $scope.quoteService.saveAssembly($scope.assembly_detail.id, $scope.assembly_detail);
+      $scope.set_assembly = false;
+  }
+  $scope.clearAssembly = function(index)
+  {
+      $scope.quoteService.clearAssembly(index);
+  }
 
   $scope.addNote = function(item, no)
   {
+      $scope.closeAll();
       if(item.note)
       {
           $scope.note = item.note;

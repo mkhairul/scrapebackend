@@ -166,7 +166,46 @@ app.factory('quoteService',
         obj.total_price = 0;
         for(var i in obj.item)
         {
-            obj.total_price += accounting.unformat(obj.item[i].price) * obj.item[i].quantity;
+            var additional_price = {};
+            if(obj.item[i].assembly_detail)
+            {
+                console.log('assembly_detail');
+                if(obj.item[i].assembly_detail.price.match(/%/) != null)
+                {
+                    // Get the value
+                    additional_price = {
+                        operator: '*',
+                        value: parseInt(obj.item[i].assembly_detail.price.match(/[0-9]*\.?[0-9]+/)[0]) / 100
+                    }
+                }
+                else
+                {
+                    additional_price = {
+                        operator: '+',
+                        value: obj.item[i].assembly_detail.price.match(/[0-9]*\.?[0-9]+/)[0]
+                    }
+                }
+            }
+            
+            if(Object.keys(additional_price).length > 0)
+            {
+               console.log('additional price');
+               if(additional_price.operator == '*')
+               {
+                   var assembly_price = eval((accounting.unformat(obj.item[i].price) * obj.item[i].quantity) 
+                                  + additional_price.operator + additional_price.value);
+                   obj.total_price += (accounting.unformat(obj.item[i].price) * obj.item[i].quantity) + assembly_price
+               }
+               else
+               {
+                   obj.total_price += eval((accounting.unformat(obj.item[i].price) * obj.item[i].quantity) 
+                                      + additional_price.operator + additional_price.value);
+               }
+            }
+            else
+            {
+                obj.total_price += accounting.unformat(obj.item[i].price) * obj.item[i].quantity;
+            }
         }
         obj.total_price += accounting.unformat(obj.shipping_cost);
         
@@ -186,6 +225,16 @@ app.factory('quoteService',
         console.log(obj);
         console.log(country);
     }
+    obj.saveAssembly = function(index, assembly){
+        obj.item[index].assembly_detail = assembly;
+        obj.calculateTotal();
+        obj.saveItem();
+    }
+    obj.clearAssembly = function(index){
+        delete obj.item[index].assembly_detail;
+        obj.calculateTotal();
+        obj.saveItem();
+    } 
     obj.saveNote = function(index, note){
         obj.item[index].note = note;
         obj.saveItem();

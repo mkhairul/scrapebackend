@@ -1,7 +1,7 @@
 <div class="dashboard grey lighten-3" ng-controller="QuoteController">
   <div class="row no-gutter">
 
-    <div class="col-sm-12 col-md-12" ng-class="{'col-lg-9': add_note, 'col-lg-12': (!add_note)}">
+    <div class="col-sm-12 col-md-12" ng-class="{'col-lg-9': add_note, 'col-lg-9': set_assembly, 'col-lg-12': (!add_note && !set_assembly)}">
 
       <div class="p-20 clearfix">
         <h4 class="grey-text">
@@ -48,6 +48,10 @@
                           <tr ng-repeat="item in quoteItems track by $index">
                             <td>{{$index+1}}</td>
                             <td><a href ng-click="openURL(item.url)">{{item.article_id}} - {{item.name}}</a>
+                                <p ng-if="item.assembly_detail">
+                                    <a ng-click="clearAssembly($index)"><i class="md md-clear"></i></a>
+                                    Assembly Price: {{(item.assembly_detail.price.indexOf('%') >= 0) ? item.assembly_detail.price:'RM'+item.assembly_detail.price}}
+                                </p>
                                 <p ng-if="item.note">
                                     <a ng-click="clearNote($index)"><i class="md md-clear"></i></a>
                                     {{item.note.val}}
@@ -57,9 +61,12 @@
                             <td>{{accounting.unformat(item.price)}}</td>
                             <td>{{accounting.unformat(item.price)*item.quantity}}</td>
                             <td>
+                                <a ng-if="item.assembly == 1" title="Assembly Required!" 
+                                   ng-click="displayAssembly(item, $index)" class="btn btn-default">
+                                    <i class="md md-new-releases"></i>
+                                </a>
                                 <a ng-click="addNote(item, $index)" class="btn btn-default"><i class="md md-speaker-notes"></i></a>
                                 <a ng-click="quoteService.remove($index)" class="btn btn-default"><i class="md md-delete red-text"></i></a>
-                                <a ng-if="item.assembly == 1" title="Assembly Required!" ng-click="displayAssembly = true" class="btn btn-default"><i class="md md-new-releases"></i></a>                                
                             </td>
                           </tr>
                           
@@ -81,7 +88,7 @@
                             <td class="label_right total" colspan="4">
                                 Total
                             </td>
-                            <td class="total">{{quoteService.total_price}}</td>
+                            <td class="total">{{accounting.toFixed(quoteService.total_price, 2)}}</td>
                             <td></td>
                           </tr>
                       </tfoot>
@@ -94,6 +101,7 @@
       </div>
       
     </div>
+    <div ng-if="set_assembly" data-animation="am-fade-and-slide-right"  class="col-lg-3 col-md-12" ng-include src="'assets/tpl/partials/assembly.html'" ></div>
     <div ng-if="add_note" data-animation="am-fade-and-slide-right"  ng-include src="'assets/tpl/partials/addnote.html'" class="col-lg-3 col-md-12"></div>
  </div>
 </div>

@@ -91,6 +91,7 @@
                       <th>ID</th>
                       <th>Product</th>
                       <th>Packages</th>
+                      <th>Assembly?</th>
                       <th>Availability</th>
                       <th>Price</th>
                       <th>Actions</th>
@@ -102,6 +103,9 @@
                       <td>{{ item.article_id }}</a></td>
                       <td><a ng-click="selectProduct(item)">{{ item.name }}</a></td>
                       <td>{{ item.packages.length }}</td>
+                      <td>
+                          <i class="md md-done" ng-if="item.assembly == 1"></i>
+                      </td>
                       <td>
                           <a ng-click="getAvailability(item)">
                               {{(item.availability) ? item.availability:'Check'}}

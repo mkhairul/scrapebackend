@@ -42,6 +42,7 @@ class ProductController extends Controller
         $result = Product::with('packages')
                             ->where('article_id', 'LIKE', $keyword)
                             ->orWhere('name', 'LIKE', $keyword)
+                            ->where('problem', '<>', 1)
                             ->get();
         if(count($result) == 0){
             return response()->json(['status' => 'error', 'message' => 'not found'], 500);
