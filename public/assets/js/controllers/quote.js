@@ -77,6 +77,10 @@ app.controller('QuoteController',
       {
           item_text += sprintf('%s x %s: RM%s\n', items[i].quantity, items[i].name, (accounting.unformat(items[i].price)*items[i].quantity));
           item_text += sprintf('Article No.: %s\n', items[i].article_id);
+          if(items[i].assembly == 1)
+          {
+              item_text += sprintf('Assembly Fee: %s\n', ((items[i].assembly_detail.price.indexOf('%') >= 0) ? items[i].assembly_detail.price:'RM'+items[i].assembly_detail.price));
+          }
           if(items[i].note)
           {
               item_text += sprintf('Note:\n', items[i].note.val);

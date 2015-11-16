@@ -50,7 +50,7 @@
                             <td><a href ng-click="openURL(item.url)">{{item.article_id}} - {{item.name}}</a>
                                 <p ng-if="item.assembly_detail">
                                     <a ng-click="clearAssembly($index)"><i class="md md-clear"></i></a>
-                                    Assembly Price: {{(item.assembly_detail.price.indexOf('%') >= 0) ? item.assembly_detail.price:'RM'+item.assembly_detail.price}}
+                                    Assembly Price: {{(item.assembly_detail.price.indexOf('%') >= 0) ? item.assembly_detail.price:'RM'+item.assembly_detail.price}} ({{accounting.toFixed(item.assembly_price, 2)}})
                                 </p>
                                 <p ng-if="item.note">
                                     <a ng-click="clearNote($index)"><i class="md md-clear"></i></a>
@@ -60,7 +60,8 @@
                             <td>{{item.quantity}}</td>
                             
                             <td>{{accounting.unformat(item.price)}}</td>
-                            <td>{{accounting.unformat(item.price)*item.quantity}}</td>
+                            <td ng-if="item.assembly == 0 || item.assembly == undefined">{{ accounting.toFixed(accounting.unformat(item.price)*item.quantity, 2) }}</td>
+                            <td ng-if="item.assembly == 1">{{ accounting.toFixed(accounting.unformat(item.price)*item.quantity+item.assembly_price, 2) }}</td>
                             <td>
                                 <a ng-if="item.assembly == 1" title="Assembly Required!" 
                                    ng-click="displayAssembly(item, $index)" class="btn btn-default">
