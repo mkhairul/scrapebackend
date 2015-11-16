@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 
 Route::get('/', function () { return view('login'); });
 Route::get('/main', ['middleware' => 'auth', function () { return view('main'); }]);
+Route::get('/maindebug', ['middleware' => 'auth', function () { return view('mainpage'); }]);
 
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
