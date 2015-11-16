@@ -58,6 +58,7 @@
                                 </p>
                             </td>
                             <td>{{item.quantity}}</td>
+                            
                             <td>{{accounting.unformat(item.price)}}</td>
                             <td>{{accounting.unformat(item.price)*item.quantity}}</td>
                             <td>
@@ -72,6 +73,13 @@
                           
                       </tbody>
                       <tfoot>
+                          <tr ng-if="quoteService.lazeefee">
+                            <td class="label_right" colspan="4">
+                                Lazee Fee
+                            </td>
+                            <td>{{quoteService.lazeefee}}</td>
+                            <td></td>
+                          </tr>
                           <tr ng-if="quoteService.selected_courier">
                             <td class="label_right" colspan="4">
                                 <!-- (<a ng-click="viewShippingDetails()">View Details</a>) -->
@@ -80,8 +88,11 @@
                                    data-template="assets/tpl/partials/shipping_country.html" 
                                    bs-modal="modal">{{quoteService.getCountry().country}}</a> 
                                 {{' - ' + quoteService.selected_courier.name}}
+                                <br/>
+                                (Total Product VM Weight: {{accounting.toFixed(quoteService.total_vmweight, 2)}})<br/>
+                                (Total Product Weight: {{accounting.toFixed(quoteService.total_weight, 2)}})
                             </td>
-                            <td>{{quoteService.shipping_cost}}</td>
+                            <td>{{accounting.toFixed(quoteService.shipping_cost, 2)}}</td>
                             <td></td>
                           </tr>
                           <tr>

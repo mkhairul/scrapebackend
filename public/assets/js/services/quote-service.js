@@ -4,11 +4,14 @@ app.factory('quoteService',
     var obj = {
         'item': [],
         'weight': [],
+        'vmweight': [],
         'total_weight': 0,
+        'total_vmweight': 0,
         'country': 'Peninsular Malaysia',
         'price_per_unit': 0,
         'selected_courier': {},
         'shipping_cost': 0,
+        'calc_breakdown': [],
         'total_price': 0 // total price of the quote (including the shipping cost)
     };
         
@@ -45,7 +48,7 @@ app.factory('quoteService',
         
         if(exists == true)
         {
-            obj.item[i].quantity += 1;
+            obj.item[exists_index].quantity += 1;
         }
         else
         {
@@ -72,13 +75,17 @@ app.factory('quoteService',
     
     obj.calculateShipping = function(){
         obj.weight = [];
+        obj.vmweight = [];
         obj.total_weight = 0;
+        obj.total_vmweight = 0;
         obj.selected_courier = {};
         obj.shipping_cost = 0;
+        obj.calc_breakdown = [];
         var weight = 0;
         for(var i in obj.item)
         {
-            var package_weight = 0;
+            var package_weight = 0; // volumetric weight
+            var actual_package_weight = 0; 
             for(var j in obj.item[i].packages)
             {
                 if(obj.item[i].packages[j].width != "" &&
@@ -106,12 +113,28 @@ app.factory('quoteService',
                 {
                     package_weight = weight;
                 }
+                
+                if(actual_package_weight)
+                {
+                    actual_package_weight = actual_package_weight + parseFloat(obj.item[i].packages[j].weight)
+                }
+                else
+                {
+                    actual_package_weight = parseFloat(obj.item[i].packages[j].weight);
+                }
             }
             if(obj.item[i].quantity)
             {
                 package_weight = package_weight * obj.item[i].quantity;
+                actual_package_weight = actual_package_weight * obj.item[i].quantity;
             }
-            obj.weight.push(package_weight);
+            obj.vmweight.push(package_weight);
+            obj.weight.push(actual_package_weight);
+        }
+        
+        for(var i in obj.vmweight)
+        {
+            obj.total_vmweight = obj.total_vmweight + parseFloat(obj.vmweight[i]);
         }
         
         for(var i in obj.weight)
@@ -133,20 +156,31 @@ app.factory('quoteService',
             // Check which condition is right
             for(var i in couriers)
             {
+                if(obj.calc_breakdown['couriers'] == undefined){ obj.calc_breakdown['couriers'] = [] };
+                obj.calc_breakdown['couriers'][couriers[i].name] = [];
                 for(var j in couriers[i].conditions)
                 {
                     if(couriers[i].conditions[j].location == obj.country)
                     {
-                        if(eval(obj.total_weight + ' ' + 
+                        if(eval(obj.total_vmweight + ' ' + 
                                 couriers[i].conditions[j].compare + ' ' + 
                                 couriers[i].conditions[j].weight))
                         {
                             var x = obj.total_weight;
                             var v = 0;
                             
-                            for(var k in couriers[i].conditions[i].prices)
+                            console.log(couriers);
+                            
+                            for(var k in couriers[i].conditions[j].prices)
                             {
-                                eval(couriers[i].conditions[i].prices[k].formula)
+                                eval(couriers[i].conditions[j].prices[k].formula)
+                                obj.calc_breakdown['couriers'][couriers[i].name].push(
+                                    {
+                                        'desc': couriers[i].conditions[j].prices[k].formula,
+                                        'x': x,
+                                        'v': v
+                                    }
+                                )
                                 obj.shipping_cost += v; 
                             }
                             
@@ -190,27 +224,31 @@ app.factory('quoteService',
             if(Object.keys(additional_price).length > 0)
             {
                console.log('additional price');
+               var assembly_price = 0;
                if(additional_price.operator == '*')
                {
-                   var assembly_price = eval((accounting.unformat(obj.item[i].price) * obj.item[i].quantity) 
+                   assembly_price = eval((accounting.unformat(obj.item[i].price) * obj.item[i].quantity) 
                                   + additional_price.operator + additional_price.value);
                    obj.total_price += (accounting.unformat(obj.item[i].price) * obj.item[i].quantity) + assembly_price
                }
                else
                {
-                   obj.total_price += eval((accounting.unformat(obj.item[i].price) * obj.item[i].quantity) 
+                   assembly_price += eval((accounting.unformat(obj.item[i].price) * obj.item[i].quantity) 
                                       + additional_price.operator + additional_price.value);
+                   obj.total_price += assembly_price;
                }
+               obj.item[i].assembly_price = assembly_price;
             }
             else
             {
                 obj.total_price += accounting.unformat(obj.item[i].price) * obj.item[i].quantity;
             }
         }
-        obj.total_price += accounting.unformat(obj.shipping_cost);
         
         // Lazee Fee
         obj.lazeefee = accounting.toFixed(obj.total_price * 0.15, 2);
+        
+        obj.total_price += accounting.unformat(obj.shipping_cost);
         
         obj.total_price += accounting.unformat(obj.lazeefee);
         
