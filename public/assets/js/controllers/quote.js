@@ -79,7 +79,7 @@ app.controller('QuoteController',
           item_text += sprintf('Article No.: %s\n', items[i].article_id);
           if(items[i].assembly == 1)
           {
-              if(items[i].assembly_detail.price)
+              if(items[i].assembly_detail)
               {
                 item_text += sprintf('Assembly Fee: %s\n', ((items[i].assembly_detail.price.indexOf('%') >= 0) ? items[i].assembly_detail.price:'RM'+items[i].assembly_detail.price));
               }
