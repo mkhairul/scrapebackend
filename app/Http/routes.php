@@ -47,3 +47,6 @@ Route::post('/product/availability', 'ProductController@availability');
 Route::get('/categories', 'ProductController@productCategories'); 
 Route::post('/product', 'ProductController@search');
 Route::get('/product/{keyword}', 'ProductController@searchGet');
+
+Route::get('scrape/start', 'ScrapeController@start');
+Route::get('scrape', 'ScrapeController@getAll');
