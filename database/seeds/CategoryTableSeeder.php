@@ -35,13 +35,13 @@ class CategoryTableSeeder extends Seeder
 							$this->command->info('Category New: ' . $cat['name']);
 							$results['new'][] = $cat['name']; 
 							$cat_new += 1;
-							/*
+							
 							DB::table('category')->insert([
 									'name' => $cat['name'],
 									'url' => $cat['url']
 							]);
 							$this->command->info('Inserting "'.$cat['name'].'" '.($index+1).'/'.count($categories));
-							*/
+							
 						}
 						
         }

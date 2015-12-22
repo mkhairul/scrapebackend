@@ -34,14 +34,14 @@ class ProductListSeeder extends Seeder
 								}else{
 									$this->command->info('New Product: ' . $product['name']);
 									$product_new += 1;
-									/*
+									
 									DB::table('product')->insert([
 											'category_id' => $cat->id,
 											'name'        => $product['name'],
 											'desc'        => $product['desc'],
 											'url'         => $product['url']
 									]);
-									*/
+									
 									$this->command->info('Inserting "'.$product['name'].'" '.($index+1).'/'.count($products));
 								}
             }
