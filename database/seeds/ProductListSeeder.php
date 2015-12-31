@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
 
 class ProductListSeeder extends Seeder
 {
@@ -12,13 +13,17 @@ class ProductListSeeder extends Seeder
     public function run()
     {
         $categories = DB::table('category')->get();
+				$results_log = [];
+				$product_exists = 0;
+				$product_new = 0;
+			
         foreach ($categories as $cat)
         {
             $this->command->info('Retrieving products for ' . $cat->name);
             $result = shell_exec('phantomjs ' . __DIR__.'/../../scraper/productlist.js "'.$cat->url.'"');
             $products = json_decode(trim($result), true);
-						$product_exists = 0;
-						$product_new = 0;
+						Log::info('Products for ' .$cat->name. ': ' . print_r($results, true));
+						
             
             foreach($products as $index => $product)
             {
@@ -34,6 +39,7 @@ class ProductListSeeder extends Seeder
 								}else{
 									$this->command->info('New Product: ' . $product['name']);
 									$product_new += 1;
+									$results_log['new'][] = $exists->name; 
 									
 									DB::table('product')->insert([
 											'category_id' => $cat->id,
@@ -46,5 +52,9 @@ class ProductListSeeder extends Seeder
 								}
             }
         }
+			
+				$results_log['new_product'] = $product_new;
+				$results_log['total'] = $product_exists + $product_new;
+				Log::info('Product Seeder: ' . print_r($results_log, true));
     }
 }
