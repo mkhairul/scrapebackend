@@ -1,7 +1,11 @@
 var page = require('webpage').create();
 var args = require('system').args;
+var d = {}
 url = (args.length > 1) ? args[1]:'';
+//url = 'http://www.ikea.com/my/en/catalog/categories/departments/kitchen/24255/';
+//url = 'http://google.com';
 page.open(url, function(status){
+		
     var products = page.evaluate(function(){
         var el = document.querySelectorAll('div > .productDetails');
         var results = [];
