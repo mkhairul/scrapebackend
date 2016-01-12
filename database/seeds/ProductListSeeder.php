@@ -45,7 +45,7 @@ class ProductListSeeder extends Seeder
 								}else{
 									$this->command->info('New Product: ' . $product['name']);
 									$product_new += 1;
-									$results_log['new'][] = $exists->name; 
+									$results_log['new'][] = $product['name']; 
 									
 									DB::table('product')->insert([
 											'category_id' => $cat->id,
