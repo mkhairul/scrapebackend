@@ -12,7 +12,6 @@ page.open(url, function(status){
                 { 'name': el[i].textContent.trim(),
                   'url' : el[i].href.trim()}
             );
-						break;
         }
         return results;
     }, d)
