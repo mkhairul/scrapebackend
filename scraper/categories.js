@@ -1,5 +1,6 @@
 var page = require('webpage').create();
 var args = require('system').args;
+var d = {}
 url = (args.length > 1) ? args[1]:'';
 page.open(url, function(status){
     var categories = page.evaluate(function(){
