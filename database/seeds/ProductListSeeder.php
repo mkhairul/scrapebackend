@@ -16,9 +16,15 @@ class ProductListSeeder extends Seeder
 				$results_log = [];
 				$product_exists = 0;
 				$product_new = 0;
+				$current = 1;
+				$process_id = getmypid();
+				$total_categories = count($categories);
 			
         foreach ($categories as $cat)
         {
+						DB::table('scrape_process')->where('process_id', $process_id)->update(['misc_info' => $current . '/' . $total_categories]);
+						$current++;
+					
             $this->command->info('Retrieving products for ' . $cat->name);
             $result = shell_exec('phantomjs ' . __DIR__.'/../../scraper/productlist.js "'.$cat->url.'"');
             $products = json_decode(trim($result), true);
@@ -26,6 +32,10 @@ class ProductListSeeder extends Seeder
 						{
 							$result = strstr($result, '[{');
 							$products = json_decode(trim($result), true);
+						}
+						if(count($products) === 0){ 
+							Log::info('Products ('.$cat->name.') not found');
+							continue; 
 						}
 					
 						Log::info('Products for ' .$cat->name. ': ' . print_r($result, true));

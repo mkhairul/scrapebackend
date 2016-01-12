@@ -28,6 +28,7 @@
             <tr>
               <th>Status</th>
 							<th>Current Status</th>
+							<th>Info</th>
               <th>Start</th>
               <th>End</th>
             </tr>
@@ -41,8 +42,9 @@
             <tr ng-repeat="(key, item) in scrape_data">
               <td>{{ item.status }}</td>
 							<td>{{ item.status_name }}</td>
+							<td>{{ item.misc_info }}</td>
               <td>{{ item.created_at }}</td>
-              <td>{{ item.updated_at }}</td>
+              <td>{{ item.date_end }}</td>
             </tr>
             </tbody>
           </table>

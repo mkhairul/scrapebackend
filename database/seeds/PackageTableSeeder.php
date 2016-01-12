@@ -170,6 +170,7 @@ class PackageTableSeeder extends Seeder
     {
         $this->scraper_dir =  __DIR__.'/../../scraper/';
         $this->scraper_data_dir = __DIR__.'/../../scraper/data/';
+				$process_id = getmypid();
         
         /*
          - loop through products
@@ -179,6 +180,7 @@ class PackageTableSeeder extends Seeder
              - wait(5);
          - updateQueue();     
          */
+			
         $products = DB::table('product')->where('article_id', '')->orderByRaw("RAND()")->get();
         $this->total_records = count($products);
         $current = 1;
@@ -191,6 +193,7 @@ class PackageTableSeeder extends Seeder
                 sleep($this->sleep);
             }
             $current += 1;
+						DB::table('scrape_process')->where('process_id', $process_id)->update(['misc_info' => $current . '/' . $this->total_records]);
         }
         
         // Finish off any other processes.
