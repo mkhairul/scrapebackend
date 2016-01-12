@@ -17,9 +17,20 @@ class CategoryTableSeeder extends Seeder
         $this->command->info('Retrieving category list');
         $result = shell_exec('phantomjs ' . __DIR__.'/../../scraper/categories.js "'.$url.'"');
         $categories = json_decode(trim($result), true);
+				if(json_last_error() != JSON_ERROR_NONE)
+				{
+					$result = strstr($result, '[{');
+					$categories = json_decode(trim($result), true);
+				}
+				
 				$cat_exists = 0;
 				$cat_new = 0;
 				$results = [];
+			
+				if(json_last_error() != JSON_ERROR_NONE)
+				{
+					$this->command->info('something wrong with json');
+				}
         
         foreach($categories as $index => $cat)
         {

@@ -71,6 +71,11 @@ class PackageTableSeeder extends Seeder
             
                 $content = file_get_contents($this->scraper_data_dir . $row['filename']);
                 $details = json_decode(trim($content), true);
+								if(json_last_error() != JSON_ERROR_NONE)
+								{
+									$content = strstr($content, '[{');
+									$details = json_decode(trim($content), true);
+								}
 
                 $tmp = DB::table('product')->where('id', $row['product_id'])->where('article_id', '')->first();
                 if(!$tmp){ $this->command->info('Skipping ID: ' . $row['product_id']); continue; }

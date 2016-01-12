@@ -22,6 +22,12 @@ class ProductListSeeder extends Seeder
             $this->command->info('Retrieving products for ' . $cat->name);
             $result = shell_exec('phantomjs ' . __DIR__.'/../../scraper/productlist.js "'.$cat->url.'"');
             $products = json_decode(trim($result), true);
+						if(json_last_error() != JSON_ERROR_NONE)
+						{
+							$result = strstr($result, '[{');
+							$products = json_decode(trim($result), true);
+						}
+					
 						Log::info('Products for ' .$cat->name. ': ' . print_r($result, true));
 						
             
