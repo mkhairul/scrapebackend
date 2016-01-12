@@ -1,6 +1,6 @@
 var page = require('webpage').create();
 var args = require('system').args;
-var d = {}
+var d = {};
 url = (args.length > 1) ? args[1]:'';
 //url = 'http://www.ikea.com/my/en/catalog/categories/departments/kitchen/24255/';
 //url = 'http://google.com';
@@ -19,7 +19,7 @@ page.open(url, function(status){
             );
         }
         return results;
-    })
+    }, d)
     console.log(JSON.stringify(products));
     phantom.exit();
 });

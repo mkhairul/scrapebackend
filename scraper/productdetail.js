@@ -1,6 +1,6 @@
 var page = require('webpage').create();
 var args = require('system').args;
-var d = {}
+var d = {};
 url = (args.length > 1) ? args[1]:'';
 
 page.open(url, function(status){
@@ -165,7 +165,7 @@ page.open(url, function(status){
         }
                                   
         return detail;
-    })
+    }, d)
     console.log(JSON.stringify(product_detail));
     phantom.exit();
 });
